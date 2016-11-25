@@ -1,6 +1,6 @@
 #include "Simulation.hpp"
-#include "Overworld.cpp"
-#include "ObjectPoints.cpp"
+#include "Overworld.hpp"
+#include "ObjectPoints.hpp"
 
 Simulation::Simulation() {
 	// Probably where you want to initialize everything
@@ -8,7 +8,6 @@ Simulation::Simulation() {
 
 	// new world
 	world = new Overworld();
-	
 
 }
 

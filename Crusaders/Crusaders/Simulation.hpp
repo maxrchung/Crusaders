@@ -3,6 +3,7 @@
 #include "ObjectPoints.hpp"
 #include "SimulationState.hpp"
 #include "SpawnInfoManager.hpp"
+#include "Overworld.hpp"
 
 class SpawnInfoManager;
 class ObjectPoints;

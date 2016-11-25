@@ -1,5 +1,6 @@
 #pragma once
 
-enum ObjectType {
-	Basic
+enum class ObjectType {
+	Basic,
+	Boss
 };

@@ -4,6 +4,6 @@ enum SimulationState {
 	Intro = 0,
 	Level1,
 	Transition,
-	Boss,
+	Boss_stage,
 	End
 };
