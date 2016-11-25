@@ -37,5 +37,11 @@ void Simulation::Draw() {
 
 	else if (state == SimulationState::Level1) {
 		// draw all objects
+
 	}
+}
+
+void Simulation::LoadDraw(ObjectPoints* objectPoints)
+{
+	loadObjectPoints.push_back(objectPoints);
 }
