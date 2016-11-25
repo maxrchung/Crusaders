@@ -13,6 +13,7 @@ public:
 	void Draw();
 
 	SpawnInfoManager* spawnInfoManager;
+	Overworld* world;
 
 	bool simulationRunning = true;
 	int time = 0;
