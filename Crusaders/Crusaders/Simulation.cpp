@@ -8,23 +8,25 @@ Simulation::Simulation() {
 	spawnInfoManager = new SpawnInfoManager(this);
 
 	// new world
-	world = new Overworld();
-
+	world = new Overworld(this);
 }
 
 void Simulation::Run() {
 	while (simulationRunning) {
+		std::cout << "Processing: " << time << std::endl;
 
 		Update();
 		Draw();
 
 		time += delta;
+		if (time > 10000) {
+			simulationRunning = false;
+		}
 	}
 }
 
 void Simulation::Update() {
 	if (state == SimulationState::Intro) {
-
 	}
 
 	else if (state == SimulationState::Level1) {
@@ -53,12 +55,14 @@ void Simulation::Draw() {
 
 		// draw all objects
 
+		world->objectPoints->Draw();
+
 		for (auto objectPoints : loadObjectPoints) {
 			auto& objectLines = objectPoints->objectLines;
 			auto& sprites = objectPoints->sprites;
 			for (int i = 0; i < objectLines.size(); ++i) {
-				Vector2 startPoint = objectLines[i]->start->Perspect(0, 200);
-				Vector2 endPoint = objectLines[i]->end->Perspect(0, 200);
+				Vector2 startPoint = objectLines[i]->start->Perspect(0, 50);
+				Vector2 endPoint = objectLines[i]->end->Perspect(0, 50);
 				sprites[i]->Move(time, time + delta, sprites[i]->position, startPoint);
 
 				Vector2 diff = endPoint - startPoint;

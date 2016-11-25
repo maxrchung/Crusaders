@@ -3,12 +3,16 @@
 #include "ObjectPoints.hpp"
 #include "SimulationState.hpp"
 #include "SpawnInfoManager.hpp"
-#include <deque>
 #include "Object.hpp"
 #include "Overworld.hpp"
+#include <deque>
+#include <iostream>
+
+#define M_PI 3.14159265359f
 
 class SpawnInfoManager;
 class ObjectPoints;
+class Overworld;
 
 class Simulation {
 public:
@@ -22,7 +26,7 @@ public:
 	SimulationState state = SimulationState::Level1;
 	Overworld* world;
 
-	bool simulationRunning = false;
+	bool simulationRunning = true ;
 	int time = 0;
 	int delta = 1000;
 	std::vector<ObjectPoints*> loadObjectPoints;
