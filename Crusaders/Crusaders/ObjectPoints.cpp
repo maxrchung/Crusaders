@@ -126,5 +126,5 @@ void ObjectPoints::ScaleTo(float scaleTo) {
 }
 
 void ObjectPoints::Draw() {
-	simulation->LoadDraw(this);
+	simulation->DrawLoad(this);
 }

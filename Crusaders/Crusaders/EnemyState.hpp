@@ -1,6 +1,6 @@
 #pragma once
 
-enum EnemyState {
+enum class EnemyState {
 	Idle,
 	Attacking,
 	Dead

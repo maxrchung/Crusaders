@@ -1,7 +1,6 @@
 #include "Character.hpp"
 #include <vector>
 #include "Simulation.hpp"
-#include "CharacterState.h"
 
 Character::Character(Simulation* sim)
 	: simulation{sim}
@@ -10,7 +9,7 @@ Character::Character(Simulation* sim)
 
 void Character::Update()
 {
-	if (state == Idle)
+	if (state == CharacterState::Idle)
 	{
 		shoot();
 	}
@@ -18,18 +17,8 @@ void Character::Update()
 
 float Character::enemyDistance(Vector3 enemyVector)
 {
-	Vector3 resultVector = position.project(enemyVector);
+	Vector3 resultVector = position.Project(enemyVector);
 	return resultVector.Magnitude();
-}
-
-Vector3 Character::getPosition()
-{
-	return position;
-}
-
-void Character::setPosition(Vector3 newPosition)
-{
-	position = newposition;
 }
 
 void Character::shoot()
