@@ -20,7 +20,7 @@ void Simulation::Run() {
 		Draw();
 
 		time += delta;
-		if (time > 10000) {
+		if (time > timeEnd) {
 			simulationRunning = false;
 		}
 	}
@@ -33,8 +33,8 @@ void Simulation::Update() {
 	else if (state == SimulationState::Level1) {
 		spawnInfoManager->Process(time);
 
-		// move all objects
-		// do logic here
+		world->objectPoints->RotateX(M_PI / 10);
+		character->direction.RotateX(M_PI / 100);
 	}
 }
 
@@ -44,14 +44,10 @@ void Simulation::Draw() {
 
 	Vector3 camPos = character->position;
 	Vector3 camDir = character->direction;
-	Vector3 camUp = character->up;
-
-	camDir = camDir.RotateX(-M_PI / 6).Normalize();
-	camDir = camDir.RotateY(-M_PI / 6).Normalize();
-
 
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
-	// y and z are switched
+	// Be careful using the above. It's okay in explaining some of the theory,
+	// but the axes work very differently OsuukiSB.
 	float heading = atan2(camDir.x, -camDir.z);
 	float pitch = asin(camDir.y);
 	float bank = 0;
@@ -62,8 +58,6 @@ void Simulation::Draw() {
 	}
 
 	else if (state == SimulationState::Level1) {
-
-
 		for (auto objectPoints : loadObjectPoints) {
 			auto& objectLines = objectPoints->objectLines;
 			auto& sprites = objectPoints->sprites;
@@ -81,6 +75,8 @@ void Simulation::Draw() {
 			}
 		}
 	}
+
+	loadObjectPoints.clear();
 }
 
 Vector2 Simulation::DrawApplyPerspective(Vector3 point, Vector3 camPos, Vector3 camRot)
