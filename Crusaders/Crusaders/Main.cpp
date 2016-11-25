@@ -26,6 +26,10 @@ std::string createPath(int argc, char* argv[])
 }
 
 void main(int argc, char* argv[]) {
+	Sprite* bg = new Sprite("dot.png");
+	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);
+	bg->Color(0, 100000, Color(0), Color(0));
+
 	Simulation* simulation = new Simulation;
 	simulation->Run();
 
