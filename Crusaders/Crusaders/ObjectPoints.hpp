@@ -1,8 +1,14 @@
 #pragma once
 
 #include "Face.hpp"
+#include "Line.hpp"
+#include "ObjectLine.hpp"
+#include "ObjectFace.hpp"
 #include "Simulation.hpp"
+#include "Sprite.hpp"
 #include <vector>
+#include <unordered_set>
+
 
 class Simulation;
 
@@ -25,6 +31,11 @@ public:
 	void Draw();
 
 	Simulation* simulation;
-	std::vector<Face> faces;
+
+	std::vector<Vector3*> objectPoints;
+	std::vector<ObjectLine*> objectLines;
+	std::vector<ObjectFace*> objectFaces;
+	std::vector<Sprite*> sprites;
+
 	Vector3 center;
 };

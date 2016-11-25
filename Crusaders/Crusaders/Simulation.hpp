@@ -20,7 +20,7 @@ public:
 
 	bool simulationRunning = true;
 	int time = 0;
-	int timePerFrame = 1000;
+	int delta = 1000;
 
 	std::vector<ObjectPoints*> loadObjectPoints;
 

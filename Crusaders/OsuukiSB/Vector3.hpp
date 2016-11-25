@@ -35,6 +35,7 @@ public:
 	void operator*=(float rhs);
 	void operator/=(float rhs);
 	void operator*=(Vector3 rhs);
+	bool operator==(Vector3 rhs);
 
 	static Vector3 Zero;
 
