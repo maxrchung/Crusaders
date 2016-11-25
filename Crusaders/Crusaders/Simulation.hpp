@@ -5,6 +5,7 @@
 #include "SpawnInfoManager.hpp"
 #include <deque>
 #include "Object.hpp"
+#include "Overworld.hpp"
 
 class SpawnInfoManager;
 class ObjectPoints;
@@ -19,11 +20,11 @@ public:
 
 	SpawnInfoManager* spawnInfoManager;
 	SimulationState state = SimulationState::Level1;
+	Overworld* world;
 
 	bool simulationRunning = false;
 	int time = 0;
 	int timePerFrame = 1000;
-
 	std::vector<ObjectPoints*> loadObjectPoints;
 	std::deque<Object*> enemies;
 
