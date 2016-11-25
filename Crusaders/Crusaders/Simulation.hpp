@@ -3,6 +3,9 @@
 #include "ObjectPoints.hpp"
 #include "SimulationState.hpp"
 #include "SpawnInfoManager.hpp"
+#include <deque>
+#include "Object.hpp"
+#include "Overworld.hpp"
 
 class SpawnInfoManager;
 class ObjectPoints;
@@ -17,11 +20,12 @@ public:
 
 	SpawnInfoManager* spawnInfoManager;
 	SimulationState state = SimulationState::Level1;
+	Overworld* world;
 
-	bool simulationRunning = true;
+	bool simulationRunning = false;
 	int time = 0;
 	int delta = 1000;
-
 	std::vector<ObjectPoints*> loadObjectPoints;
+	std::deque<Object*> enemies;
 
 };

@@ -1,11 +1,15 @@
 #include "Simulation.hpp"
 #include "Storyboard.hpp"
+#include "Overworld.hpp"
+#include "ObjectPoints.hpp"
 
 Simulation::Simulation() {
 	// Probably where you want to initialize everything
 	spawnInfoManager = new SpawnInfoManager(this);
 
 	// new world
+	world = new Overworld();
+
 }
 
 void Simulation::Run() {
