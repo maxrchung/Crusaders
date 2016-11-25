@@ -3,9 +3,10 @@
 #include "ObjectPoints.hpp"
 #include "SimulationState.hpp"
 #include "SpawnInfoManager.hpp"
-#include <deque>
+#include <list>
 #include "Object.hpp"
 #include "Overworld.hpp"
+#include "Enemy.hpp"
 
 class SpawnInfoManager;
 class ObjectPoints;
@@ -26,6 +27,6 @@ public:
 	int time = 0;
 	int delta = 1000;
 	std::vector<ObjectPoints*> loadObjectPoints;
-	std::deque<Object*> enemies;
+	std::list<Enemy*> enemies;
 
 };

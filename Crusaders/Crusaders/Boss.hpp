@@ -6,6 +6,7 @@
 
 class Boss : public Enemy {
 public:
+	Boss();
 	Boss(Simulation* simulation);
 	ObjectPoints* object;
 	Simulation* simulation;

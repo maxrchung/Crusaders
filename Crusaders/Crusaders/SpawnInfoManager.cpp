@@ -1,6 +1,7 @@
 #include "SpawnInfoManager.hpp"
 #include "Enemy.hpp"
 #include "Boss.hpp"
+#include "Simulation.hpp"
 
 SpawnInfoManager::SpawnInfoManager(Simulation* simulation) 
 	: simulation(simulation) {
@@ -14,17 +15,21 @@ void SpawnInfoManager::Process(int time) {
 	// switch case type
 	// case: new BasicCubeMonsterFaceThing()
 	// simulation->objects.push_back(case) 
+	
 	ObjectType enemy;
 	if (time > SpawnInfoManager::spawnInfos.front().spawn.ms){
 		enemy = SpawnInfoManager::spawnInfos.front().type;
+		Enemy* enemy_object;
+		Boss* boss_object;
 		SpawnInfoManager::spawnInfos.pop_front();
 		switch (enemy) {
 			case ObjectType::Basic: 
-				new Enemy(simulation);
+				enemy_object = new Enemy(simulation);
+				simulation->LoadDraw(enemy_object->object);
 				break;
 			case ObjectType::Boss: 
-				new Boss(simulation);
-
+				boss_object = new Boss(simulation);
+				simulation->LoadDraw(boss_object->object);
 		}
 	}
 }
