@@ -20,7 +20,7 @@ void Simulation::Run() {
 		Draw();
 
 		time += delta;
-		if (time > 10000) {
+		if (time > timeEnd) {
 			simulationRunning = false;
 		}
 	}
@@ -33,8 +33,8 @@ void Simulation::Update() {
 	else if (state == SimulationState::Level1) {
 		spawnInfoManager->Process(time);
 
-		// move all objects
-		// do logic here
+		world->objectPoints->RotateX(M_PI / 10);
+		character->direction = character->direction.RotateY(M_PI / 10) * dps;
 	}
 }
 
@@ -42,16 +42,11 @@ void Simulation::Draw() {
 	// draw all objects
 	world->objectPoints->Draw();
 
-	Vector3 camPos = character->position;
-	Vector3 camDir = character->direction;
-	Vector3 camUp = character->up;
-
-	camDir = camDir.RotateX(-M_PI / 6).Normalize();
-	camDir = camDir.RotateY(-M_PI / 6).Normalize();
-
-
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
-	// y and z are switched
+	// Be careful using the above. It's okay in explaining some of the theory,
+	// but the axes are not the same in OsuukiSB.
+	Vector3 camPos = character->position;
+	Vector3 camDir = character->direction.Normalize();
 	float heading = atan2(camDir.x, -camDir.z);
 	float pitch = asin(camDir.y);
 	float bank = 0;
@@ -62,25 +57,31 @@ void Simulation::Draw() {
 	}
 
 	else if (state == SimulationState::Level1) {
-
-
 		for (auto objectPoints : loadObjectPoints) {
 			auto& objectLines = objectPoints->objectLines;
 			auto& sprites = objectPoints->sprites;
 			for (int i = 0; i < objectLines.size(); ++i) {
 				Vector2 startPoint = DrawApplyPerspective(*objectLines[i]->start, camPos, camRot);
 				Vector2 endPoint = DrawApplyPerspective(*objectLines[i]->end, camPos, camRot);
-				sprites[i]->Move(time, time + delta, sprites[i]->position, startPoint);
-
 				Vector2 diff = endPoint - startPoint;
 				float additionalRot = Vector2(sprites[i]->rotation).AngleBetween(diff);
-				sprites[i]->Rotate(time, time + delta, sprites[i]->rotation, sprites[i]->rotation + additionalRot);
-
 				float dist = diff.Magnitude();
-				sprites[i]->ScaleVector(time, time + delta, sprites[i]->scaleVector, Vector2(dist, 1));
+
+				if (sprites[i]->commands.empty()) {
+					sprites[i]->Move(time, time + delta, startPoint, startPoint);
+					sprites[i]->Rotate(time, time + delta, sprites[i]->rotation + additionalRot, sprites[i]->rotation + additionalRot);
+					sprites[i]->ScaleVector(time, time + delta, Vector2(dist, 1), Vector2(dist, 1));
+				}
+				else {
+					sprites[i]->Move(time, time + delta, sprites[i]->position, startPoint);
+					sprites[i]->Rotate(time, time + delta, sprites[i]->rotation, sprites[i]->rotation + additionalRot);
+					sprites[i]->ScaleVector(time, time + delta, sprites[i]->scaleVector, Vector2(dist, 1));
+				}
 			}
 		}
 	}
+
+	loadObjectPoints.clear();
 }
 
 Vector2 Simulation::DrawApplyPerspective(Vector3 point, Vector3 camPos, Vector3 camRot)

@@ -13,7 +13,6 @@ public:
 	
 	Vector3 position = Vector3(0, 0, 0);
 	Vector3 direction = Vector3(0, 0, -1);
-	Vector3 up = Vector3(0, 1, 0);
 
 	void shoot();
 	void Update();

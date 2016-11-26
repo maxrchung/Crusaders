@@ -78,6 +78,7 @@ ObjectPoints::ObjectPoints(Simulation* simulation, std::vector<Face> faces)
 }
 
 void ObjectPoints::Move(Vector3 move) {
+	move *= simulation->dps;
 	center += move;
 
 	for (auto objectPoint : objectPoints) {
@@ -86,6 +87,7 @@ void ObjectPoints::Move(Vector3 move) {
 }
 
 void ObjectPoints::MoveTo(Vector3 moveTo) {
+	moveTo *= simulation->dps;
 	Vector3 move = moveTo - center;
 	center = moveTo;
 
@@ -97,29 +99,34 @@ void ObjectPoints::MoveTo(Vector3 moveTo) {
 
 void ObjectPoints::Rotate(float rotateX, float rotateY, float rotateZ) {
 	for (auto objectPoint : objectPoints) {
-		*objectPoint = (*objectPoint - center).Rotate(rotateX, rotateY, rotateZ);
+		*objectPoint = (*objectPoint - center).Rotate(rotateX, rotateY, rotateZ) + center;
 	}
 }
 
 void ObjectPoints::RotateX(float rotateX) {
+	rotateX *= simulation->dps;
 	Rotate(rotateX, 0, 0);
 }
 
 void ObjectPoints::RotateY(float rotateY) {
+	rotateY *= simulation->dps;
 	Rotate(0, rotateY, 0);
 }
 
 void ObjectPoints::RotateZ(float rotateZ) {
+	rotateZ *= simulation->dps;
 	Rotate(0, 0, rotateZ);
 }
 
 void ObjectPoints::Scale(float scale) {
+	scale *= simulation->dps;
 	for (auto objectPoint : objectPoints) {
 		*objectPoint = (*objectPoint - center) * scale + center;
 	}
 }
 
 void ObjectPoints::ScaleTo(float scaleTo) {
+	scaleTo *= simulation->dps;
 	for (auto objectPoint : objectPoints) {
 		*objectPoint = (*objectPoint - center).Normalize() * scaleTo + center;
 	}

@@ -36,7 +36,10 @@ public:
 	float drawDistance = 100.0f;
 	bool simulationRunning = true ;
 	int time = 0;
-	int delta = 1000;
+	int timeEnd = 5000;
+	int delta = 200;
+	// Need for correct calculation independent of framerate
+	float dps = float(delta) / 1000;
 	std::vector<ObjectPoints*> loadObjectPoints;
 	std::list<Enemy*> enemies;
 
