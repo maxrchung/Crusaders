@@ -32,6 +32,8 @@ void Simulation::Update() {
 
 	else if (state == SimulationState::Level1) {
 		spawnInfoManager->Process(time);
+		// beatmapManager->Process();
+		// character->Update()
 
 		world->objectPoints->RotateX(M_PI / 10);
 		character->direction = character->direction.RotateY(M_PI / 10) * dps;

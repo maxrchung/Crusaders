@@ -5,6 +5,8 @@
 Character::Character(Simulation* sim)
 	: simulation{sim}
 {
+	health = 100;
+	bulletcount = 30;
 }
 
 void Character::Update()

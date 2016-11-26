@@ -1,8 +1,8 @@
 #pragma once
-enum CharacterState
+enum class CharacterState
 {
-	Idle = 0;
-	Shooting = 1;
-	Running = 2;
+	Idle = 0,
+	Shooting = 1,
+	Running = 2
 
 };
