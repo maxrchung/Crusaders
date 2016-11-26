@@ -1,9 +1,20 @@
 #include "SpawnInfoManager.hpp"
 #include "Enemy.hpp"
 #include "Boss.hpp"
+#include "Simulation.hpp"
+
+
+SpawnInfoManager::SpawnInfoManager() {
+}
 
 SpawnInfoManager::SpawnInfoManager(Simulation* simulation) 
 	: simulation(simulation) {
+
+	spawnInfos = std::list<SpawnInfo>({
+		SpawnInfo(Time("00:00:000"), ObjectType::Basic, Vector3(0, 0, -200)),
+		SpawnInfo(Time("00:01:000"), ObjectType::Basic, Vector3(100, 100, -200)),
+		SpawnInfo(Time("00:02:000"), ObjectType::Basic, Vector3(-100, 100, 200))
+	});
 }
 
 void SpawnInfoManager::Process(int time) {
@@ -14,18 +25,21 @@ void SpawnInfoManager::Process(int time) {
 	// switch case type
 	// case: new BasicCubeMonsterFaceThing()
 	// simulation->objects.push_back(case) 
-
-	//ObjectType enemy;
-	//if (time > SpawnInfoManager::spawnInfos.front().spawn.ms){
-	//	enemy = SpawnInfoManager::spawnInfos.front().type;
-	//	SpawnInfoManager::spawnInfos.pop_front();
-	//	switch (enemy) {
-	//		case ObjectType::Basic: 
-	//			new Enemy(simulation);
-	//			break;
-	//		case ObjectType::Boss: 
-	//			new Boss(simulation);
-
-	//	}
-	//}
+	ObjectType enemy;
+	if (!SpawnInfoManager::spawnInfos.empty()) {
+		if (time >= SpawnInfoManager::spawnInfos.front().spawn.ms) {
+			enemy = SpawnInfoManager::spawnInfos.front().type;
+			Enemy* enemy_object;
+			switch (enemy) {
+			case ObjectType::Basic:
+				enemy_object = new Enemy(simulation, SpawnInfoManager::spawnInfos.front());
+				break;
+			case ObjectType::Boss:
+				enemy_object = new Boss(simulation, SpawnInfoManager::spawnInfos.front());
+				break;
+			}
+			simulation->enemies.push_back(enemy_object);
+			SpawnInfoManager::spawnInfos.pop_front();
+		}
+	}
 }

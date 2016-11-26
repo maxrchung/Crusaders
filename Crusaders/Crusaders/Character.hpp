@@ -1,9 +1,11 @@
 #pragma once
 
+#include "Camera.hpp"
 #include "CharacterState.hpp"
 #include "Simulation.hpp"
 #include "Vector3.hpp"
 
+class Camera;
 class Simulation;
 
 class Character
@@ -11,8 +13,7 @@ class Character
 public:
 	Character(Simulation* sim);
 	
-	Vector3 position = Vector3(0, 0, 0);
-	Vector3 direction = Vector3(0, 0, -1);
+	Camera* camera;
 
 	void shoot();
 	void Update();

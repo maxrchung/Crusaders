@@ -4,6 +4,7 @@
 #include "Line.hpp"
 #include "ObjectLine.hpp"
 #include "ObjectFace.hpp"
+#include "ObjectSprite.hpp"
 #include "Simulation.hpp"
 #include "Sprite.hpp"
 #include <vector>
@@ -41,7 +42,7 @@ public:
 	std::vector<Vector3*> objectPoints;
 	std::vector<ObjectLine*> objectLines;
 	std::vector<ObjectFace*> objectFaces;
-	std::vector<Sprite*> sprites;
+	std::vector<ObjectSprite*> objectSprites;
 
 	Vector3 center;
 };

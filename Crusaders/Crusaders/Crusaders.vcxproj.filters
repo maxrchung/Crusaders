@@ -57,6 +57,12 @@
     <ClCompile Include="BeatmapManager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="ObjectSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="BeatmapObject.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -125,7 +131,13 @@
     <ClInclude Include="CharacterState.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="BeatmapManager.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectSprite.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BeatmapObject.hpp">

@@ -71,7 +71,7 @@ ObjectPoints::ObjectPoints(Simulation* simulation, std::vector<Face> faces)
 
 	// Setup sprites
 	for (auto objectLine : objectLines) {
-		sprites.push_back(new Sprite("dot.png", Vector2::Zero, Layer::Foreground, Origin::CentreLeft));
+		objectSprites.push_back(new ObjectSprite(new Sprite("dot.png", Vector2::Zero, Layer::Foreground, Origin::CentreLeft)));
 	}
 
 	center = total / counter;

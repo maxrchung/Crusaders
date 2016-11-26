@@ -3,7 +3,7 @@
 #include "Simulation.hpp"
 
 Character::Character(Simulation* sim)
-	: simulation{sim}
+	: simulation(sim), camera(new Camera(sim))
 {
 	health = 100;
 	bulletcount = 30;
@@ -19,7 +19,7 @@ void Character::Update()
 
 float Character::enemyDistance(Vector3 enemyVector)
 {
-	Vector3 resultVector = position.Project(enemyVector);
+	Vector3 resultVector = camera->position.Project(enemyVector);
 	return resultVector.Magnitude();
 }
 
