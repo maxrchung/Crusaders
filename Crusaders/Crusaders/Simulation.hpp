@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Camera.hpp"
 #include "Character.hpp"
 #include "ObjectPoints.hpp"
 #include "SimulationState.hpp"
@@ -16,6 +17,7 @@
 class SpawnInfoManager;
 class ObjectPoints;
 class Overworld;
+class Camera;
 class Character;
 class Enemy;
 
@@ -25,15 +27,15 @@ public:
 	void Run();
 	void Update();
 	void Draw();
-	Vector2 DrawApplyPerspective(Vector3 point, Vector3 camPos, Vector3 rotation);
+
 	void DrawLoad(ObjectPoints* objectPoints);
 
 	SpawnInfoManager* spawnInfoManager;
 	SimulationState state = SimulationState::Level1;
 	Overworld* world;
 	Character* character;
+	Camera* camera;
 
-	float drawDistance = 100.0f;
 	bool simulationRunning = true ;
 	int time = 0;
 	int timeEnd = 5000;
