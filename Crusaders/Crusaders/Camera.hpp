@@ -17,7 +17,8 @@ public:
 	void RotateZ(float rotateZ);
 
 	Vector3 ConvertPoint(Vector3 point, Vector3 camPos, Vector3 rotation);
-	Vector2 ApplyPerspective(Vector3 point);
+	// We need otherPoint so we can calculate a projection to the drawDistance if necessary
+	Vector2 ApplyPerspective(Vector3 pointToPerspect, Vector3 otherPoint);
 
 	Vector3 position;
 	Vector3 direction;

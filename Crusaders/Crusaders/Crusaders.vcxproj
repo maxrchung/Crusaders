@@ -162,6 +162,7 @@
     <ClCompile Include="ObjectFace.cpp" />
     <ClCompile Include="ObjectLine.cpp" />
     <ClCompile Include="ObjectPoints.cpp" />
+    <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Overworld.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="SpawnInfo.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="ObjectFace.hpp" />
     <ClInclude Include="ObjectLine.hpp" />
     <ClInclude Include="ObjectPoints.hpp" />
+    <ClInclude Include="ObjectSprite.hpp" />
     <ClInclude Include="ObjectType.hpp" />
     <ClInclude Include="Overworld.hpp" />
     <ClInclude Include="SimulationState.hpp" />

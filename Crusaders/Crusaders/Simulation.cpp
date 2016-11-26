@@ -55,30 +55,35 @@ void Simulation::Draw() {
 	if (state == SimulationState::Level1) {
 		for (auto objectPoints : loadObjectPoints) {
 			auto& objectLines = objectPoints->objectLines;
-			auto& sprites = objectPoints->sprites;
+			auto& objectSprites = objectPoints->objectSprites;
 			for (int i = 0; i < objectLines.size(); ++i) {
+				ObjectSprite* objectSprite = objectSprites[i];
 				Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 				Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
 
+				// If both points are behind camera, don't draw it
 				if (startCamCon.z >= 0 || endCamCon.z >= 0) {
+					objectSprite->reset = true;
 					continue;
 				}
 
-				Vector2 startPoint = camera->ApplyPerspective(startCamCon);
-				Vector2 endPoint = camera->ApplyPerspective(endCamCon);
+				Sprite* sprite = objectSprite->sprite;
+				Vector2 startPoint = camera->ApplyPerspective(startCamCon, endCamCon);
+				Vector2 endPoint = camera->ApplyPerspective(endCamCon, startCamCon);
 				Vector2 diff = endPoint - startPoint;
-				float additionalRot = Vector2(sprites[i]->rotation).AngleBetween(diff);
+				float additionalRot = Vector2(sprite->rotation).AngleBetween(diff);
 				float dist = diff.Magnitude();
 
-				if (sprites[i]->commands.empty()) {
-					sprites[i]->Move(time, time + delta, startPoint, startPoint);
-					sprites[i]->Rotate(time, time + delta, sprites[i]->rotation + additionalRot, sprites[i]->rotation + additionalRot);
-					sprites[i]->ScaleVector(time, time + delta, Vector2(dist, 1), Vector2(dist, 1));
+				if (objectSprite->reset) {
+					sprite->Move(time, time + delta, startPoint, startPoint);
+					sprite->Rotate(time, time + delta, sprite->rotation + additionalRot, sprite->rotation + additionalRot);
+					sprite->ScaleVector(time, time + delta, Vector2(dist, 1), Vector2(dist, 1));
+					objectSprite->reset = false;
 				}
 				else {
-					sprites[i]->Move(time, time + delta, sprites[i]->position, startPoint);
-					sprites[i]->Rotate(time, time + delta, sprites[i]->rotation, sprites[i]->rotation + additionalRot);
-					sprites[i]->ScaleVector(time, time + delta, sprites[i]->scaleVector, Vector2(dist, 1));
+					sprite->Move(time, time + delta, sprite->position, startPoint);
+					sprite->Rotate(time, time + delta, sprite->rotation, sprite->rotation + additionalRot);
+					sprite->ScaleVector(time, time + delta, sprite->scaleVector, Vector2(dist, 1));
 				}
 			}
 		}

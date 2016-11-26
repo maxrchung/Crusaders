@@ -38,8 +38,9 @@ Vector3 Camera::ConvertPoint(Vector3 point, Vector3 camPos, Vector3 camRot) {
 	return camCoor;
 }
 
-Vector2 Camera::ApplyPerspective(Vector3 point) {
-	Vector2 perspected = point.Perspect(0, drawDistance);
-	return perspected;
-
+Vector2 Camera::ApplyPerspective(Vector3 pointToPerspect, Vector3 otherPoint) {
+	if (pointToPerspect.z < 0) {
+		Vector2 perspected = pointToPerspect.Perspect(0, drawDistance);
+		return perspected;
+	}
 }
