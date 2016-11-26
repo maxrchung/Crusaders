@@ -34,38 +34,37 @@ ObjectPoints::ObjectPoints(Simulation* simulation, std::vector<Face> faces)
 
 		// Setup lines
 		for (int i = 0; i < objectFace->objectPoints.size(); ++i) {
-			int nextIndex = (i + 1) % objectPoints.size();
-
-			Line line = Line(*objectFace->objectPoints[i], *objectFace->objectPoints[i + 1]);
+			int nextIndex = (i + 1) % objectFace->objectPoints.size();
+			Line line = Line(*objectFace->objectPoints[i], *objectFace->objectPoints[nextIndex]);
 
 			ObjectLine* checkExistingLine = NULL;
 			for (auto objectLine : objectLines) {
-				if (line.start == *objectLine->start && line.end == *objectLine->start) {
+				if ((line.start == *objectLine->start && line.end == *objectLine->end) ||
+					(line.end == *objectLine->start && line.start == *objectLine->end)) {
 					checkExistingLine = objectLine;
 					break;
 				}
 			}
 
 			if (!checkExistingLine) {
-				Vector3* startLine = NULL;
-				Vector3* endLine = NULL;
+				Vector3* startPoint = NULL;
+				Vector3* endPoint = NULL;
 				for (auto objectPoint : objectPoints) {
 					if (line.start == *objectPoint) {
-						startLine = objectPoint;
+						startPoint = objectPoint;
 					}
 					else if (line.end == *objectPoint) {
-						endLine = objectPoint;
+						endPoint = objectPoint;
 					}
 				}
 
-				if (!startLine || !endLine) {
+				if (!startPoint || !endPoint) {
 					throw "Cannot find point!";
 				}
 
-				checkExistingLine = new ObjectLine(startLine, endLine);
+				checkExistingLine = new ObjectLine(startPoint, endPoint);
+				objectLines.push_back(checkExistingLine);
 			}
-
-			objectLines.push_back(checkExistingLine);
 		}
 
 	}
@@ -127,5 +126,5 @@ void ObjectPoints::ScaleTo(float scaleTo) {
 }
 
 void ObjectPoints::Draw() {
-	simulation->LoadDraw(this);
+	simulation->DrawLoad(this);
 }

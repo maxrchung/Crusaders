@@ -6,6 +6,7 @@
 
 class SpawnInfo {
 public:
+	SpawnInfo() {};
 	SpawnInfo(Time spawn, ObjectType type, Vector3 location);
 	Time spawn;
 	ObjectType type; // probably should change this to type

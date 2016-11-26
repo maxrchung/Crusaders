@@ -3,10 +3,12 @@
 #include "Simulation.hpp"
 
 
-Boss::Boss() {
-}
 
-Boss::Boss(Simulation* simulation)
-	: simulation(simulation) {
-	object = new ObjectPoints(simulation, {Face(Vector3(-1, 1, 1), Vector3(1, 1, 1), Vector3(1, -1, 1), Vector3(-1, -1, 1))});
+
+Boss::Boss(Simulation* simulation, SpawnInfo spawnInfo) {
+	Enemy(simulation, spawnInfo);
+	object = new ObjectPoints(simulation, {Face(Vector3(-1, 1, 1), Vector3(1, 1, 1), Vector3(1, -1, 1), Vector3(-1, -1, 1)),
+										   Face(Vector3(1, 1, 1), Vector3(1, 1, -1), Vector3(1, -1, -1), Vector3(1, -1, 1)),
+										   Face(Vector3(1, 1, -1), Vector3(-1, 1, -1), Vector3(-1, -1, -1), Vector3(1, -1, -1)),
+										   Face(Vector3(-1, 1, -1), Vector3(-1, 1, 1), Vector3(-1, -1, 1), Vector3(-1, -1, -1))});
 }

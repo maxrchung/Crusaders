@@ -8,23 +8,26 @@ Simulation::Simulation() {
 	spawnInfoManager = new SpawnInfoManager(this);
 
 	// new world
-	world = new Overworld();
-
+	world = new Overworld(this);
+	character = new Character(this);
 }
 
 void Simulation::Run() {
 	while (simulationRunning) {
+		std::cout << "Processing: " << time << std::endl;
 
 		Update();
 		Draw();
 
 		time += delta;
+		if (time > 10000) {
+			simulationRunning = false;
+		}
 	}
 }
 
 void Simulation::Update() {
 	if (state == SimulationState::Intro) {
-
 	}
 
 	else if (state == SimulationState::Level1) {
@@ -36,29 +39,37 @@ void Simulation::Update() {
 }
 
 void Simulation::Draw() {
+	// draw all objects
+	world->objectPoints->Draw();
+
+	Vector3 camPos = character->position;
+	Vector3 camDir = character->direction;
+	Vector3 camUp = character->up;
+
+	camDir = camDir.RotateX(-M_PI / 6).Normalize();
+	camDir = camDir.RotateY(-M_PI / 6).Normalize();
+
+
+	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
+	// y and z are switched
+	float heading = atan2(camDir.x, -camDir.z);
+	float pitch = asin(camDir.y);
+	float bank = 0;
+	Vector3 camRot = Vector3(-pitch, -heading, -bank);
+
 	if (state == SimulationState::Intro) {
 
 	}
 
 	else if (state == SimulationState::Level1) {
-		//// Convert point to camera's coordinate position
-		//Vector3 cameraPosition;
-		//// Must be normalzied
-		//Vector3 cameraDirection;
-		//Vector3 cameraUp;
 
-		//float heading = atan2(cameraDirection.x, cameraDirection.y);
-		//float pitch = asin(cameraPosition.z);
-		//float bank = 0;
-
-		// draw all objects
 
 		for (auto objectPoints : loadObjectPoints) {
 			auto& objectLines = objectPoints->objectLines;
 			auto& sprites = objectPoints->sprites;
 			for (int i = 0; i < objectLines.size(); ++i) {
-				Vector2 startPoint = objectLines[i]->start->Perspect(0, 200);
-				Vector2 endPoint = objectLines[i]->end->Perspect(0, 200);
+				Vector2 startPoint = DrawApplyPerspective(*objectLines[i]->start, camPos, camRot);
+				Vector2 endPoint = DrawApplyPerspective(*objectLines[i]->end, camPos, camRot);
 				sprites[i]->Move(time, time + delta, sprites[i]->position, startPoint);
 
 				Vector2 diff = endPoint - startPoint;
@@ -72,7 +83,15 @@ void Simulation::Draw() {
 	}
 }
 
-void Simulation::LoadDraw(ObjectPoints* objectPoints)
+Vector2 Simulation::DrawApplyPerspective(Vector3 point, Vector3 camPos, Vector3 camRot)
+{
+	Vector3 diff = point - camPos;
+	Vector3 camCoor = diff.Rotate(camRot.x, camRot.y, camRot.z);
+	return camCoor.Perspect(0, drawDistance);
+}
+
+
+void Simulation::DrawLoad(ObjectPoints* objectPoints)
 {
 	loadObjectPoints.push_back(objectPoints);
 }
