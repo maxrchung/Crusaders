@@ -18,4 +18,6 @@ public:
 	int health = 10;
 	EnemyState state = EnemyState::Idle;
 
+	void Update();
+	void Draw();
 };

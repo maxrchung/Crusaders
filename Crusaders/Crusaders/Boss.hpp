@@ -10,6 +10,10 @@ public:
 	Boss(Simulation* simulation, SpawnInfo spawnInfo);
 	ObjectPoints* object;
 	Simulation* simulation;
+	SpawnInfo spawnInfo;
 	int new_health = health;
 	EnemyState boss_state = state;
+
+	void Update();
+	void Draw(); 
 };

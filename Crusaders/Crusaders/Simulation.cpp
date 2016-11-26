@@ -34,11 +34,34 @@ void Simulation::Update() {
 		spawnInfoManager->Process(time);
 
 		world->objectPoints->RotateX(M_PI / 10);
-		character->direction = character->direction.RotateY(M_PI / 10) * dps;
+		//character->direction = character->direction.RotateY(M_PI / 10) * dps;
+
+		// loop through enemy list
+		// enemy.Update()
+		for (auto e : enemies) {
+			e->Update();
+		}
+
+
+		// loop through bullet list
+		// bullet->Update()
+
+		// loop through deletion lists
+		// delete item
 	}
 }
 
 void Simulation::Draw() {
+	// Loop through enemylist
+	// enemy.Draw()
+	for (auto e : enemies) {
+		e->Draw();
+	}
+
+
+	// Loop through bulletlist
+	// bullet.Draw();
+
 	// draw all objects
 	world->objectPoints->Draw();
 

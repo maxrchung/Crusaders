@@ -15,8 +15,24 @@ Enemy::Enemy(Simulation* simulation, SpawnInfo spawninfo)
 	
 	object->Move(spawninfo.location);
 	object->ScaleTo(100.0f);
-	
+	// set state = idle
 }
 
+void Enemy::Update() {
+	// if spawn state:
+	// start spawn
+	// if idle state:
+	// rotate X amount every frame
+	// if dying:
+	// then do what is necessary for death
+	if (Enemy::state == EnemyState::Idle) {
+
+	}
 
 
+
+}
+
+void Enemy::Draw() {
+	simulation->DrawLoad(object);
+}
