@@ -37,6 +37,8 @@ void Simulation::Run() {
 void Simulation::Update() {
 	if (state == SimulationState::Level1) {
 		spawnInfoManager->Process(time);
+		// beatmapManager->Process();
+		// character->Update()
 
 		world->objectPoints->RotateX(M_PI / 10);
 		//character->camera->RotateX(M_PI / 2);

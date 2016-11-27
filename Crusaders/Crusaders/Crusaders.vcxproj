@@ -152,6 +152,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="BeatmapManager.cpp" />
     <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Character.cpp" />
@@ -165,11 +166,16 @@
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Overworld.cpp" />
     <ClCompile Include="Simulation.cpp" />
+    <ClCompile Include="BeatmapObject.cpp" />
+    <ClCompile Include="Slider.cpp" />
+    <ClCompile Include="Note.cpp" />
+    <ClCompile Include="Spinner.cpp" />
     <ClCompile Include="SpawnInfo.cpp" />
     <ClCompile Include="SpawnInfoManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic.hpp" />
+    <ClInclude Include="BeatmapManager.hpp" />
     <ClInclude Include="Boss.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Character.hpp" />
@@ -177,6 +183,10 @@
     <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="EnemyState.hpp" />
     <ClInclude Include="Face.hpp" />
+    <ClInclude Include="BeatmapObject.hpp" />
+    <ClInclude Include="Spinner.hpp" />
+    <ClInclude Include="Note.hpp" />
+    <ClInclude Include="Slider.hpp" />
     <ClInclude Include="Line.hpp" />
     <ClInclude Include="Object.hpp" />
     <ClInclude Include="ObjectFace.hpp" />

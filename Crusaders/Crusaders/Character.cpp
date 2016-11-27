@@ -4,6 +4,8 @@
 Character::Character(Simulation* sim)
 	: simulation(sim), camera(new Camera(sim))
 {
+	health = 100;
+	bulletcount = 30;
 }
 
 void Character::Update()
