@@ -1,7 +1,7 @@
 #include "Camera.hpp"
 
 Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
-	: simulation(simulation), position(position), direction(direction) {
+	: simulation(simulation), position(position), direction(direction), drawDistance(1.0f) {
 }
 
 void Camera::Move(Vector3 move) {
@@ -38,9 +38,34 @@ Vector3 Camera::ConvertPoint(Vector3 point, Vector3 camPos, Vector3 camRot) {
 	return camCoor;
 }
 
-Vector2 Camera::ApplyPerspective(Vector3 pointToPerspect, Vector3 otherPoint) {
-	if (pointToPerspect.z < 0) {
-		Vector2 perspected = pointToPerspect.Perspect(0, drawDistance);
+Vector2 Camera::ApplyPerspective(Vector3 point, Vector3 other) {
+	if (point.z < 0) {
+		Vector2 perspected = point.Perspect(0, drawDistance);
 		return perspected;
 	}
+	//else {
+	//	if (other.z <= -drawDistance) {
+	//		Vector2 projectedNear = ProjectNear(point, other);
+	//		return projectedNear;
+	//	}
+	//}
+}
+
+Vector2 Camera::ProjectNear(Vector3 behind, Vector3 far) {
+	Vector3 originalFar = far;
+
+	// Switch the Z axis so perspective projection is pointed towards -Z
+	float projectDistance = 0.01f;
+	behind.z *= -1;
+	far.z *= -1;
+
+	// Move so that far is at 0,0,0
+	projectDistance -= far.z;
+	behind -= far;
+	far -= far;
+
+	Vector2 perspected = behind.Perspect(0, projectDistance);
+	Vector3 projectedNear = originalFar - Vector3(perspected.x, perspected.y, projectDistance);
+
+	return Vector2(projectedNear.x, projectedNear.y);
 }

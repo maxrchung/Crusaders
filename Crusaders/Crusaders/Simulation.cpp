@@ -34,8 +34,9 @@ void Simulation::Update() {
 		// character->Update()
 
 		world->objectPoints->RotateX(M_PI / 10);
-		//character->camera->RotateX(M_PI / 2);
-		//character->camera->RotateY(M_PI / 4);
+		//camera->RotateX(M_PI / 2);
+		//camera->RotateY(M_PI / 4);
+		camera->Move(Vector3(0, 0, -10));
 
 		for (auto e : enemies) {
 			e->Update();
@@ -68,6 +69,7 @@ void Simulation::Draw() {
 	float pitch = asin(camDir.y);
 	float bank = 0;
 	Vector3 camRot = Vector3(-pitch, -heading, -bank);
+
 	if (state == SimulationState::Level1) {
 		for (auto objectPoints : loadObjectPoints) {
 			auto& objectLines = objectPoints->objectLines;
@@ -78,7 +80,7 @@ void Simulation::Draw() {
 				Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
 
 				// If both points are behind camera, don't draw it
-				if (startCamCon.z >= 0 || endCamCon.z >= 0) {
+				if (startCamCon.z >= 0 && endCamCon.z >= 0) {
 					objectSprite->reset = true;
 					continue;
 				}
