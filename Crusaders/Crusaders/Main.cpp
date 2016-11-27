@@ -45,5 +45,5 @@ void main(int argc, char* argv[]) {
 
 	Storyboard::Instance()->Write(completepaths[0]);
 
-	std::cin.get();
+	//std::cin.get();
 }
