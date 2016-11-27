@@ -1,9 +1,7 @@
 #pragma once
 
-#include "Face.hpp"
-#include "ObjectPoints.hpp"
-
 class ObjectPoints;
+class Simulation;
 
 class Overworld {
 public:

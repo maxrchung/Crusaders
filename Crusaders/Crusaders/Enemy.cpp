@@ -1,10 +1,6 @@
 #include "Enemy.hpp"
 #include "ObjectPoints.hpp"
 #include "Simulation.hpp"
-#include "SpawnInfoManager.hpp"
-#include <list>
-
-
 
 Enemy::Enemy(Simulation* simulation, SpawnInfo spawninfo)
 	: simulation(simulation), spawninfo(spawninfo) {
@@ -14,19 +10,28 @@ Enemy::Enemy(Simulation* simulation, SpawnInfo spawninfo)
 										   Face(Vector3(-1, 1, -1), Vector3(-1, 1, 1), Vector3(-1, -1, 1), Vector3(-1, -1, -1))});
 	
 	object->Move(spawninfo.location);
-	object->ScaleTo(100.0f);
-	// set state = idle
+	object->ScaleTo(50.0f);
 }
 
 void Enemy::Update() {
-	// if spawn state:
-	// start spawn
-	// if idle state:
-	// rotate X amount every frame
-	// if dying:
-	// then do what is necessary for death
-	if (Enemy::state == EnemyState::Idle) {
+	health--; // to check death animation: remove this later
+	if (health == 0) {
+		Enemy::state = EnemyState::Dying;
+	}
 
+	if (Enemy::state == EnemyState::Idle) {
+		object->RotateY(M_PI / 3);
+		
+
+	}
+	else if (Enemy::state == EnemyState::Dying) {
+		temp_time += object->simulation->delta;
+		if (temp_time < 1000) {
+			object->Rotate(M_PI * 3.5, M_PI * 3.5, M_PI * 3.5);
+		}
+		else {
+			simulation->delete_list.push_back(this);
+		}
 	}
 
 

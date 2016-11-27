@@ -1,17 +1,5 @@
 #pragma once
 
-#include "Camera.hpp"
-#include "Character.hpp"
-#include "ObjectPoints.hpp"
-#include "SimulationState.hpp"
-#include "SpawnInfoManager.hpp"
-#include <list>
-#include "Object.hpp"
-#include "Overworld.hpp"
-#include "Enemy.hpp"
-#include <deque>
-#include <iostream>
-
 #define M_PI 3.14159265359f
 
 class SpawnInfoManager;
@@ -20,6 +8,11 @@ class Overworld;
 class Camera;
 class Character;
 class Enemy;
+
+#include "SimulationState.hpp"
+#include <iostream>
+#include <list>
+#include <vector>
 
 class Simulation {
 public:
@@ -44,5 +37,6 @@ public:
 	float dps = float(delta) / 1000;
 	std::vector<ObjectPoints*> loadObjectPoints;
 	std::list<Enemy*> enemies;
+	std::list<Enemy*> delete_list;
 
 };

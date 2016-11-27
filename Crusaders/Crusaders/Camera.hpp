@@ -1,9 +1,8 @@
 #pragma once
 
-#include "Simulation.hpp"
-#include "Vector3.hpp"
-
 class Simulation;
+
+#include "Vector3.hpp"
 
 class Camera {
 public:

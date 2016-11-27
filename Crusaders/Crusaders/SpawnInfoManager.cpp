@@ -1,8 +1,6 @@
 #include "SpawnInfoManager.hpp"
-#include "Enemy.hpp"
-#include "Boss.hpp"
 #include "Simulation.hpp"
-
+#include "Boss.hpp"
 
 SpawnInfoManager::SpawnInfoManager() {
 }
@@ -12,8 +10,9 @@ SpawnInfoManager::SpawnInfoManager(Simulation* simulation)
 
 	spawnInfos = std::list<SpawnInfo>({
 		SpawnInfo(Time("00:00:000"), ObjectType::Basic, Vector3(0, 0, -200)),
-		SpawnInfo(Time("00:01:000"), ObjectType::Basic, Vector3(100, 100, -200)),
-		SpawnInfo(Time("00:02:000"), ObjectType::Basic, Vector3(-100, 100, 200))
+		SpawnInfo(Time("00:01:000"), ObjectType::Basic, Vector3(-100, 100, -200)),
+		SpawnInfo(Time("00:02:000"), ObjectType::Basic, Vector3(100, 100, -200)),
+		SpawnInfo(Time("00:03:000"), ObjectType::Boss, Vector3(0, 100, -200))
 	});
 }
 
