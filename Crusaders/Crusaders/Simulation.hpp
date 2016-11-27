@@ -39,4 +39,5 @@ public:
 	std::list<Enemy*> enemies;
 	std::list<Enemy*> delete_list;
 
+	std::vector<Overworld*> testWorlds;
 };

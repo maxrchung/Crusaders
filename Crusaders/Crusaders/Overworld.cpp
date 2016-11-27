@@ -12,8 +12,8 @@ Overworld::Overworld(Simulation* simulation)
 	});
 
 	objectPoints->ScaleTo(scale);
-	objectPoints->RotateY(-M_PI / 3);
-	objectPoints->Move(Vector3(0, 0, -500));
+	//objectPoints->RotateY(-M_PI / 3);
+	objectPoints->Move(Vector3(0, 0, -300));
 }
 
 

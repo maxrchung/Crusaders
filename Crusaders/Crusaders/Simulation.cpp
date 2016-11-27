@@ -18,6 +18,13 @@ Simulation::Simulation() {
 	world = new Overworld(this);
 	character = new Character(this);
 	camera = character->camera;
+
+	for (int i = 0; i < 9; ++i) {
+		Overworld* overworld = new Overworld(this);
+		overworld->objectPoints->Move(Vector3(-200, 200, 0));
+		overworld->objectPoints->Move(Vector3(200 * (i / 3), -200 * (i % 3), 0));
+		testWorlds.push_back(overworld);
+	}
 }
 
 void Simulation::Run() {
@@ -36,14 +43,14 @@ void Simulation::Run() {
 
 void Simulation::Update() {
 	if (state == SimulationState::Level1) {
-		spawnInfoManager->Process(time);
+		//spawnInfoManager->Process(time);
 		// beatmapManager->Process();
 		// character->Update()
 
 		world->objectPoints->RotateX(M_PI / 10);
-		//camera->RotateX(M_PI / 2);
-		//camera->RotateY(M_PI / 4);
-		camera->Move(Vector3(0, 0, -10));
+		camera->RotateX(M_PI / 2);
+		camera->RotateY(M_PI / 2);
+		camera->Move(Vector3(0, 0, -20));
 
 		for (auto &e : enemies) {
 			e->Update();
@@ -68,7 +75,11 @@ void Simulation::Draw() {
 	// Loop through bulletlist
 	// bullet.Draw();
 
-	world->objectPoints->Draw();
+	//world->objectPoints->Draw();
+
+	for (auto world : testWorlds) {
+		world->objectPoints->Draw();
+	}
 
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
 	// Be careful using the above. It's okay in explaining some of the theory,
@@ -86,22 +97,24 @@ void Simulation::Draw() {
 			auto& objectSprites = objectPoints->objectSprites;
 			for (int i = 0; i < objectLines.size(); ++i) {
 				ObjectSprite* objectSprite = objectSprites[i];
+				Sprite* sprite = objectSprite->sprite;
 				Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 				Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
 
 				// If both points are behind camera, don't draw it
-				if (startCamCon.z >= 0 && endCamCon.z >= 0) {
+				if ((startCamCon.z >= 0 || endCamCon.z >= 0) && !objectSprite->reset) {
+					sprite->Fade(time, time, 0.0f, 0.0f);
 					objectSprite->reset = true;
 					continue;
 				}
 
-				Sprite* sprite = objectSprite->sprite;
 				Vector2 startPoint = camera->ApplyPerspective(startCamCon, endCamCon);
 				Vector2 endPoint = camera->ApplyPerspective(endCamCon, startCamCon);
 				Vector2 diff = endPoint - startPoint;
 				float additionalRot = Vector2(sprite->rotation).AngleBetween(diff);
 				float dist = diff.Magnitude();
 				if (objectSprite->reset) {
+					sprite->Fade(time, time, 1.0f, 1.0f);
 					sprite->Move(time, time + delta, startPoint, startPoint);
 					sprite->Rotate(time, time + delta, sprite->rotation + additionalRot, sprite->rotation + additionalRot);
 					sprite->ScaleVector(time, time + delta, Vector2(dist, 1), Vector2(dist, 1));

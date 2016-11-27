@@ -24,4 +24,6 @@ public:
 	Vector3 direction;
 	Simulation* simulation;
 	float drawDistance;
+	float fieldOfView;
+	float screenMultiplier;
 };
