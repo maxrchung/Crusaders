@@ -1,6 +1,5 @@
 #include "Character.hpp"
-#include <vector>
-#include "Simulation.hpp"
+#include "Camera.hpp"
 
 Character::Character(Simulation* sim)
 	: simulation(sim), camera(new Camera(sim))

@@ -1,12 +1,10 @@
 #pragma once
 
-#include "Camera.hpp"
-#include "CharacterState.hpp"
-#include "Simulation.hpp"
-#include "Vector3.hpp"
-
 class Camera;
 class Simulation;
+
+#include "CharacterState.hpp"
+#include "Vector3.hpp"
 
 class Character
 {

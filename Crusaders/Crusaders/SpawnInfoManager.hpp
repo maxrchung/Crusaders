@@ -1,11 +1,9 @@
 #pragma once
 
-#include "Simulation.hpp"
-#include "SimulationState.hpp"
+class Simulation;
+
 #include "SpawnInfo.hpp"
 #include <list>
-
-class Simulation;
 
 class SpawnInfoManager {
 public:

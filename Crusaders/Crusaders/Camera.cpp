@@ -1,4 +1,6 @@
 #include "Camera.hpp"
+#include "ObjectPoints.hpp"
+#include "Simulation.hpp"
 
 Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
 	: simulation(simulation), position(position), direction(direction) {
