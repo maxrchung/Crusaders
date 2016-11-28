@@ -4,8 +4,10 @@
 #include "CharacterState.hpp"
 #include "Simulation.hpp"
 #include "Vector3.hpp"
+#include "Bullet.hpp"
 
 class Camera;
+class ObjectPoints;
 class Simulation;
 
 class Character
@@ -17,9 +19,11 @@ public:
 
 	void shoot();
 	void Update();
+	void Draw();
 	void spawnBullets();
 
 	float enemyDistance(Vector3 enemyVector);
+	ObjectPoints* gun;
 
 private:
 	CharacterState state = CharacterState::Idle;

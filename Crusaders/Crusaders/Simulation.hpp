@@ -11,6 +11,8 @@
 #include "Enemy.hpp"
 #include <deque>
 #include <iostream>
+#include "BeatmapManager.hpp"
+#include "Bullet.hpp"
 
 #define M_PI 3.14159265359f
 
@@ -20,6 +22,8 @@ class Overworld;
 class Camera;
 class Character;
 class Enemy;
+class BeatmapManager;
+class Bullet;
 
 class Simulation {
 public:
@@ -35,6 +39,7 @@ public:
 	Overworld* world;
 	Character* character;
 	Camera* camera;
+	BeatmapManager* beatmapManager;
 
 	bool simulationRunning = true ;
 	int time = 0;
@@ -43,6 +48,7 @@ public:
 	// Need for correct calculation independent of framerate
 	float dps = float(delta) / 1000;
 	std::vector<ObjectPoints*> loadObjectPoints;
+	std::vector<Bullet*> bulletList;
 	std::list<Enemy*> enemies;
 
 };

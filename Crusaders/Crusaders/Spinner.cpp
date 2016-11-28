@@ -2,7 +2,14 @@
 #include <iostream>
 
 Spinner::Spinner(int startTime, int endTime, Simulation* sim)
-	:BeatmapObject{startTime, sim}, endTime{endTime}
 {
+	this->startTime = startTime;
+	this->endTime = endTime;
+	simulation = sim;
+	finished = false;
 	//std::cout << "Spinner Initialized" << std::endl;
+}
+
+void Spinner::Update()
+{
 }

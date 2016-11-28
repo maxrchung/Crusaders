@@ -2,8 +2,11 @@
 #include "Storyboard.hpp"
 #include "Overworld.hpp"
 #include "ObjectPoints.hpp"
+#include "BeatmapManager.hpp"
+#include "Bullet.hpp"
 
-Simulation::Simulation() {
+Simulation::Simulation() 
+{
 	// Probably where you want to initialize everything
 	spawnInfoManager = new SpawnInfoManager(this);
 
@@ -11,6 +14,8 @@ Simulation::Simulation() {
 	world = new Overworld(this);
 	character = new Character(this);
 	camera = character->camera;
+	time = 2000;
+	timeEnd = 52000;
 }
 
 void Simulation::Run() {
@@ -30,12 +35,17 @@ void Simulation::Run() {
 void Simulation::Update() {
 	if (state == SimulationState::Level1) {
 		spawnInfoManager->Process(time);
-		// beatmapManager->Process();
-		// character->Update()
+		beatmapManager->Process();
+		character->Update();
 
 		world->objectPoints->RotateX(M_PI / 10);
-		//character->camera->RotateX(M_PI / 2);
-		//character->camera->RotateY(M_PI / 4);
+		//camera->RotateX(M_PI / 4);
+		//camera->RotateY(M_PI / 4);
+		camera->Move(Vector3(0, 0, -10));
+		for (auto e : bulletList)
+		{
+			e->Update();
+		}
 
 		for (auto e : enemies) {
 			e->Update();
@@ -58,6 +68,8 @@ void Simulation::Draw() {
 	// bullet.Draw();
 
 	world->objectPoints->Draw();
+
+	character->Draw();
 
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
 	// Be careful using the above. It's okay in explaining some of the theory,

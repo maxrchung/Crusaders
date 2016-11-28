@@ -8,6 +8,7 @@ class Simulation;
 class Camera {
 public:
 	Camera(Simulation* simulation, Vector3 position = Vector3::Zero, Vector3 direction = Vector3(0, 0, -1));
+
 	void Move(Vector3 move);
 	void MoveTo(Vector3 moveTo);
 
@@ -20,6 +21,7 @@ public:
 	// We need otherPoint so we can calculate a projection to the drawDistance if necessary
 	Vector2 ApplyPerspective(Vector3 pointToPerspect, Vector3 otherPoint);
 
+	Vector3 localVector;
 	Vector3 position;
 	Vector3 direction;
 	Simulation* simulation;

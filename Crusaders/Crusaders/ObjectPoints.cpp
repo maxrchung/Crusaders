@@ -87,7 +87,6 @@ void ObjectPoints::Move(Vector3 move) {
 }
 
 void ObjectPoints::MoveTo(Vector3 moveTo) {
-	moveTo *= simulation->dps;
 	Vector3 move = moveTo - center;
 	center = moveTo;
 

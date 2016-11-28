@@ -169,6 +169,7 @@
     <ClCompile Include="BeatmapObject.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Note.cpp" />
+    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Spinner.cpp" />
     <ClCompile Include="SpawnInfo.cpp" />
     <ClCompile Include="SpawnInfoManager.cpp" />
@@ -184,6 +185,7 @@
     <ClInclude Include="EnemyState.hpp" />
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
+    <ClInclude Include="Bullet.hpp" />
     <ClInclude Include="Spinner.hpp" />
     <ClInclude Include="Note.hpp" />
     <ClInclude Include="Slider.hpp" />

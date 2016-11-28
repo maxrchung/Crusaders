@@ -38,9 +38,11 @@ void main(int argc, char* argv[]) {
 
 	std::vector<std::string> completepaths = createPath(argc, argv);
 
-	Simulation* simulation = new Simulation;
 	std::string s = std::string(completepaths[1]);
+
+	Simulation* simulation = new Simulation();
 	BeatmapManager BMM = BeatmapManager(s, simulation);
+	simulation->beatmapManager = &BMM;
 	simulation->Run();
 
 	Storyboard::Instance()->Write(completepaths[0]);

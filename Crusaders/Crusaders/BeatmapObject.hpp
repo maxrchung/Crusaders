@@ -3,11 +3,14 @@
 class BeatmapObject 
 {
 public:
-	BeatmapObject(int time, Simulation* sim);
+	BeatmapObject();
 	virtual void Update();
+	Simulation* simulation;
+	int startTime;
+	bool finished;
 
 private:
-	int startTime;
-	Simulation* simulation;
+
+
 
 };
