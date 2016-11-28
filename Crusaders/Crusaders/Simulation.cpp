@@ -49,9 +49,10 @@ void Simulation::Update() {
 		// character->Update()
 
 		//world->objectPoints->RotateX(M_PI / 10);
-		//camera->RotateX(M_PI / 4);
+		//camera->RotateX(M_PI / 2);
 		//camera->RotateY(M_PI / 4);
-		camera->Move(Vector3(0, 0, -20));
+		camera->RotateZ(M_PI / 4);
+		//camera->Move(Vector3(0, 0, -20));
 
 		for (auto &e : enemies) {
 			e->Update();
