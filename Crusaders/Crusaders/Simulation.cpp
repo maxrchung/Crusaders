@@ -60,7 +60,7 @@ void Simulation::Update() {
 }
 
 void Simulation::Draw() {
-	for (auto e : enemies) {
+	for (auto &e : enemies) {
 		e->Draw();
 	}
 

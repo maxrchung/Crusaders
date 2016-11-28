@@ -17,6 +17,6 @@ public:
 	EnemyState state = EnemyState::Idle;
 	int temp_time = 0;
 
-	void Update();
-	void Draw();
+	virtual void Update();
+	virtual void Draw();
 };
