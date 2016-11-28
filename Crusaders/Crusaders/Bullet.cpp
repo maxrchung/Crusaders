@@ -1,11 +1,11 @@
 #include "Bullet.hpp"
+#include "Character.hpp"
 #include "ObjectPoints.hpp"
 #include "Simulation.hpp"
 #include <iostream>
 
-
-Bullet::Bullet(Vector3 start, Vector3 dir, Simulation* sim)
-	:startPoint{start}, direction{dir}, simulation{sim}
+Bullet::Bullet(Simulation* sim, Vector3 start, Vector3 dir)
+	: simulation(sim), startPoint(start), bulletPower(50), direction(dir)
 {
 	std::cout << "bullet initialized" << std::endl;
 	
@@ -16,18 +16,17 @@ Bullet::Bullet(Vector3 start, Vector3 dir, Simulation* sim)
 		Face(Vector3(-1, 1, -4), Vector3(-1, 1, 1), Vector3(-1, -1, 1), Vector3(-1, -1, -4)) }); //left
 
 	bullet->ScaleTo(10.0f);
-
+	bullet->MoveTo(startPoint);
 	finalPos = dir * bulletPower;
 }
 
 void Bullet::Update()
 {
-	Move();
+	//std::cout << bullet->center.x << " " << bullet->center.y << " " << bullet->center.z << std::endl;
+	bullet->Move(direction * bulletPower);
 }
 
-void Bullet::Move()
+void Bullet::Draw()
 {
-	//std::cout << bullet->center.x << " " << bullet->center.y << " " << bullet->center.z << std::endl;
-	bullet->Move(startPoint + direction * bulletPower);
 	simulation->DrawLoad(bullet);
 }

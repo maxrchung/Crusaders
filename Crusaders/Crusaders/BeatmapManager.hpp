@@ -10,7 +10,7 @@ class BeatmapObject;
 class BeatmapManager
 {
 public:
-	BeatmapManager(std::string& filepath, Simulation* sim);
+	BeatmapManager(Simulation* sim, std::string& filepath);
 	void Process();
 
 private:

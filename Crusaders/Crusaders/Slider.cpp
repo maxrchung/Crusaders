@@ -2,12 +2,9 @@
 #include <vector>
 #include <tuple>
 
-Slider::Slider(int x, int y, int time, std::vector<std::tuple<int, int>> transpoints, Simulation* sim)
-	:posX{x}, posY{y}, transitionPoints{transpoints}
+Slider::Slider(Simulation* simulation, int x, int y, int startTime, std::vector<std::tuple<int, int>> transitionPoints)
+	: x(x), y(y), transitionPoints(transitionPoints), BeatmapObject(simulation, startTime, false)
 {
-	startTime = time;
-	simulation = sim;
-	finished = false;
 	//std::cout << "Slider Initialized" << std::endl;
 }
 

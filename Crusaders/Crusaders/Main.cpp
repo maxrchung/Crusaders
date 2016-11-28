@@ -4,7 +4,6 @@
 #include <string>
 #include <iostream>
 #include <time.h>
-#include <tuple>
 
 std::vector<std::string> createPath(int argc, char* argv[])
 {
@@ -44,7 +43,7 @@ void main(int argc, char* argv[]) {
 	std::string s = std::string(completepaths[1]);
 
 	Simulation* simulation = new Simulation();
-	BeatmapManager BMM = BeatmapManager(s, simulation);
+	BeatmapManager BMM = BeatmapManager(simulation, s);
 	simulation->beatmapManager = &BMM;
 	simulation->Run();
 

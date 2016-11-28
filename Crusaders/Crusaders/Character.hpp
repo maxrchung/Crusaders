@@ -14,23 +14,16 @@ public:
 	
 	Camera* camera;
 
-	void shoot();
 	void Update();
 	void Draw();
-	void spawnBullets();
 
 	float enemyDistance(Vector3 enemyVector);
 	ObjectPoints* gun;
 
 private:
-	CharacterState state = CharacterState::Idle;
+	CharacterState state;
 
-	int bulletcount;
+	int bulletCount;
 	int health;
 	Simulation* simulation;
-
-	//some structure to hold monsters in sight of char, <DEQUE> OF TYPE OBJECT*
-
-	//some ray-casted line, using projection, which exists in OsuukiSB
-
 };

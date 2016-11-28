@@ -10,23 +10,18 @@
 #include "Note.hpp"
 #include "Spinner.hpp"
 
-BeatmapManager::BeatmapManager(std::string& filepath, Simulation* sim)
-	:simulation{sim}
+BeatmapManager::BeatmapManager(Simulation* sim, std::string& filepath)
+	: simulation(sim)
 {
 	readFile(filepath);
 }
 
 void BeatmapManager::Process()
 {
-	//mapObjects is the vector
-	for (std::vector<BeatmapObject*>::iterator i = mapObjects.begin(); i != mapObjects.end(); ++i)
-	{
-		//std::cout << "Process called" << std::endl;
-		BeatmapObject* pointer = *i;
-		pointer->Update();
+	for (auto mapObject : mapObjects) {
+		mapObject->Update();
 	}
 }
-
 
 void BeatmapManager::readFile(std::string& filepath)
 {
@@ -128,20 +123,19 @@ void BeatmapManager::createMapObject(std::vector<std::string>& objectVector)
 	{
 		isSlider = true;
 	}
-	
 
 	std::cout << objectVector.size() << std::endl;
 	if (vectorLength == 6 && !isSlider)
 	{
-		mapObjects.push_back(new Note(std::stoi(objectVector[2]), simulation));
+		mapObjects.push_back(new Note(simulation, std::stoi(objectVector[2])));
 	}
 	else if (vectorLength == 7 && !isSlider)
 	{
-		mapObjects.push_back(new Spinner(std::stoi(objectVector[2]), std::stoi(objectVector[5]), simulation));
+		mapObjects.push_back(new Spinner(simulation, std::stoi(objectVector[2]), std::stoi(objectVector[5])));
 	}
 	else if (vectorLength >= 8 && isSlider)
 	{
-		mapObjects.push_back(new Slider(std::stoi(objectVector[0]), std::stoi(objectVector[1]), std::stoi(objectVector[2]), getSliderTransitions(stringer), simulation));
+		mapObjects.push_back(new Slider(simulation, std::stoi(objectVector[0]), std::stoi(objectVector[1]), std::stoi(objectVector[2]), getSliderTransitions(stringer)));
 	}
 	//3 cases: len of 5 == note, len of 7 without BPLC == spinner, len of 6 or more, with BPLC = slider.
 }

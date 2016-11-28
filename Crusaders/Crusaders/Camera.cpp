@@ -10,7 +10,8 @@ Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
 }
 
 void Camera::Move(Vector3 move) {
-	simulation->character->gun->Move(move); //multiplying dps twice causes this not to move
+	// Must be careful not to affect dps twice
+	simulation->character->gun->Move(move); 
 	move *= simulation->dps;
 	position += move;
 }
@@ -23,12 +24,12 @@ void Camera::MoveTo(Vector3 moveTo) {
 void Camera::Rotate(float rotateX, float rotateY, float rotateZ) {
 	Vector3 rotatedDirection = direction.Rotate(rotateX, rotateY, rotateZ).Normalize();
 	direction = rotatedDirection;
-	simulation->character->gun->Rotate(rotateX, -rotateY, -rotateZ);//.Normalize();
+
+	simulation->character->gun->Rotate(rotateX, -rotateY, -rotateZ);
 	Vector3 local = simulation->character->gun->center - position;
 	Vector3 localRotated = local.Rotate(rotateX, -rotateY, -rotateZ);
 	Vector3 offsetPos = position + localRotated;
 	simulation->character->gun->MoveTo(offsetPos);
-
 }
 
 void Camera::RotateX(float rotateX) {

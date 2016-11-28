@@ -4,7 +4,7 @@
 class Spinner : public BeatmapObject
 {
 	public:
-		Spinner(int startTime, int endTime, Simulation* sim);
+		Spinner(Simulation* sim, int startTime, int endTime);
 		void Update();
 
 	private:

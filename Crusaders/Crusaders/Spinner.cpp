@@ -1,12 +1,9 @@
 #include "Spinner.hpp"
 #include <iostream>
 
-Spinner::Spinner(int startTime, int endTime, Simulation* sim)
+Spinner::Spinner(Simulation* sim, int startTime, int endTime)
+	: BeatmapObject(sim, startTime, false), endTime(endTime)
 {
-	this->startTime = startTime;
-	this->endTime = endTime;
-	simulation = sim;
-	finished = false;
 	//std::cout << "Spinner Initialized" << std::endl;
 }
 

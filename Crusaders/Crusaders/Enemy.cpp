@@ -30,12 +30,9 @@ void Enemy::Update() {
 			object->Rotate(M_PI * 3.5, M_PI * 3.5, M_PI * 3.5);
 		}
 		else {
-			simulation->delete_list.push_back(this);
+			simulation->enemiesToDelete.push_back(this);
 		}
 	}
-
-
-
 }
 
 void Enemy::Draw() {

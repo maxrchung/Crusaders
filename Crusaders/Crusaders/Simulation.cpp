@@ -12,9 +12,17 @@
 #include "Bullet.hpp"
 
 Simulation::Simulation() 
-	// Probably where you want to initialize everything
-	: spawnInfoManager(new SpawnInfoManager(this)), world(new Overworld(this)), character(new Character(this)),	camera(character->camera), 
-	time(0), timeEnd(5000), delta(200), dps((float)delta / 1000), state(SimulationState::Level1), simulationRunning(true) {
+	: time(5000),
+	timeEnd(10000), 
+	delta(200), 
+	dps((float)delta / 1000), 
+	state(SimulationState::Level1), 
+	simulationRunning(true) {
+
+	spawnInfoManager = new SpawnInfoManager(this);
+	world = new Overworld(this);
+	character = new Character(this);
+	camera = character->camera;
 
 	for (int i = 0; i < 9; ++i) {
 		Overworld* overworld = new Overworld(this);
@@ -30,7 +38,9 @@ void Simulation::Run() {
 		std::cout << "Processing: " << time << std::endl;
 
 		Update();
+		UpdateDelete();
 		Draw();
+		DrawRender();
 
 		time += delta;
 		if (time > timeEnd) {
@@ -42,29 +52,37 @@ void Simulation::Run() {
 void Simulation::Update() {
 	if (state == SimulationState::Level1) {
 		//spawnInfoManager->Process(time);
+		beatmapManager->Process();
 
 		world->objectPoints->RotateX(M_PI / 10);
 
 		//camera->RotateX(M_PI / 4);
 		//camera->RotateY(M_PI / 4);
-		camera->Move(Vector3(0, 0, -10));
+		//camera->Move(Vector3(0, 0, -10));
 
-		for (auto e : bulletList)
-		{
-			e->Update();
+		for (auto bullet : bullets) {
+			bullet->Update();
 		}
-		for (auto e : enemies) {
-			e->Update();
-		}
-
-		// loop through bullet list
-		// bullet->Update()
-
-		for (auto d : delete_list) {
-			enemies.remove(d);
-		}
-		delete_list.clear();
 	}
+}
+
+void Simulation::UpdateDelete() {
+	for (auto bullet : bulletsToDelete) {
+		bullets.remove(bullet);
+	}
+	bulletsToDelete.clear();
+
+	for (auto enemy : enemies) {
+		enemy->Update();
+	}
+	for (auto marked : enemiesToDelete) {
+		enemies.remove(marked);
+	}
+	enemiesToDelete.clear();
+}
+
+void Simulation::DrawLoad(ObjectPoints* objectPoints) {
+	loadObjectPoints.push_back(objectPoints);
 }
 
 void Simulation::Draw() {
@@ -72,14 +90,20 @@ void Simulation::Draw() {
 		enemy->Draw();
 	}
 
-	//world->objectPoints->Draw();
+	for (auto bullet : bullets) {
+		bullet->Draw();
+	}
 
 	character->Draw();
 
-	for (auto world : testWorlds) {
-		world->objectPoints->Draw();
-	}
+	//world->objectPoints->Draw();
 
+	//for (auto world : testWorlds) {
+	//	world->objectPoints->Draw();
+	//}
+}
+
+void Simulation::DrawRender() {
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
 	// Be careful using the above. It's okay in explaining some of the theory,
 	// but the axes are not the same in OsuukiSB.
@@ -100,7 +124,7 @@ void Simulation::Draw() {
 				Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 				Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
 
-				 //If both points are behind camera, don't draw it
+				//If both points are behind camera, don't draw it
 				if (startCamCon.z >= 0 && endCamCon.z >= 0) {
 					sprite->Fade(time, time, 0.0f, 0.0f);
 					objectSprite->reset = true;
@@ -128,8 +152,4 @@ void Simulation::Draw() {
 		}
 	}
 	loadObjectPoints.clear();
-}
-void Simulation::DrawLoad(ObjectPoints* objectPoints)
-{
-	loadObjectPoints.push_back(objectPoints);
 }

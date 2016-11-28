@@ -23,8 +23,6 @@ void Boss::Update() {
 
 	if (state == EnemyState::Idle) {
 		object->RotateX(M_PI / 3);
-
-
 	}
 	else if (state == EnemyState::Dying) {
 		temp_time += object->simulation->delta;
@@ -32,7 +30,7 @@ void Boss::Update() {
 			object->Rotate(M_PI * 3.5, M_PI * 3.5, M_PI * 3.5);
 		}
 		else {
-			simulation->delete_list.push_back(this);
+			simulation->enemiesToDelete.push_back(this);
 		}
 	}
 }

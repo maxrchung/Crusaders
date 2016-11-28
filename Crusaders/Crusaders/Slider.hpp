@@ -7,11 +7,11 @@
 class Slider : public BeatmapObject
 {
 public:
-	Slider(int x, int y, int time, std::vector<std::tuple<int,int>> transpoints, Simulation* sim);
+	Slider(Simulation* simulation, int x, int y, int startTime, std::vector<std::tuple<int, int>> transitionPoints);
 	void Update() override;
 private:
-	int posX;
-	int posY;
+	int x;
+	int y;
 	std::vector<std::tuple<int, int>> transitionPoints;
 
 };

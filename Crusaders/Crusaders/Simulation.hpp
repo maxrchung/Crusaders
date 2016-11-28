@@ -20,9 +20,14 @@ public:
 	Simulation();
 	void Run();
 	void Update();
-	void Draw();
-
+	// Separated this out from Update function to differentiate deletion
+	void UpdateDelete();
+	// Allows an object to load its objectPoints into the simulation
 	void DrawLoad(ObjectPoints* objectPoints);
+	// Responsible for calling Draw for each object it keeps track of
+	void Draw();
+	// Draws all loaded objects and clears list
+	void DrawRender();
 
 	SpawnInfoManager* spawnInfoManager;
 	SimulationState state;
@@ -41,9 +46,10 @@ public:
 	// Then, Simulation will draw the objects
 	// Once Simulation finishes drawing, it clears this data structure for the next frame
 	std::vector<ObjectPoints*> loadObjectPoints;
-	std::vector<Bullet*> bulletList;
+	std::list<Bullet*> bullets;
+	std::list<Bullet*> bulletsToDelete;
 	std::list<Enemy*> enemies;
-	std::list<Enemy*> delete_list;
+	std::list<Enemy*> enemiesToDelete;
 
 	std::vector<Overworld*> testWorlds;
 };

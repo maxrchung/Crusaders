@@ -21,7 +21,6 @@ public:
 	Vector2 ApplyPerspective(Vector3 point, Vector3 other);
 	Vector2 ProjectNear(Vector3 behind, Vector3 far);
 
-	Vector3 localVector;
 	Vector3 position;
 	Vector3 direction;
 	Simulation* simulation;
