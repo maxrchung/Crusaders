@@ -1,16 +1,14 @@
 #pragma once
 
-#include "Face.hpp"
-#include "Line.hpp"
-#include "ObjectLine.hpp"
-#include "ObjectFace.hpp"
-#include "ObjectSprite.hpp"
-#include "Simulation.hpp"
-#include "Sprite.hpp"
-#include <vector>
-#include <unordered_set>
-
+class ObjectFace;
+class ObjectLine;
+class ObjectSprite;
 class Simulation;
+
+#include "Face.hpp"
+#include "Sprite.hpp"
+#include <unordered_set>
+#include <vector>
 
 class ObjectPoints {
 public:

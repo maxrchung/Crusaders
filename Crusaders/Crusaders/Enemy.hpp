@@ -1,12 +1,10 @@
 #pragma once
 
-#include "ObjectPoints.hpp"
-#include "EnemyState.hpp"
-#include "Simulation.hpp"
-#include "SpawnInfo.hpp"
-
 class Simulation;
 class ObjectPoints;
+
+#include "SpawnInfo.hpp"
+#include "EnemyState.hpp"
 
 class Enemy{
 public:
@@ -17,7 +15,8 @@ public:
 	SpawnInfo spawninfo;
 	int health = 10;
 	EnemyState state = EnemyState::Idle;
+	int temp_time = 0;
 
-	void Update();
-	void Draw();
+	virtual void Update();
+	virtual void Draw();
 };

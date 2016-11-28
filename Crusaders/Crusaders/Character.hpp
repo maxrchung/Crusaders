@@ -1,14 +1,11 @@
 #pragma once
 
-#include "Camera.hpp"
-#include "CharacterState.hpp"
-#include "Simulation.hpp"
-#include "Vector3.hpp"
-#include "Bullet.hpp"
-
 class Camera;
-class ObjectPoints;
 class Simulation;
+class ObjectPoints;
+
+#include "CharacterState.hpp"
+#include "Vector3.hpp"
 
 class Character
 {

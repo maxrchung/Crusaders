@@ -1,7 +1,7 @@
 #include "Note.hpp"
-#include "BeatmapObject.hpp"
 #include <iostream>
 #include "Simulation.hpp"
+#include "Character.hpp"
 
 Note::Note(int time, Simulation* sim)
 {

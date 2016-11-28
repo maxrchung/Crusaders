@@ -1,6 +1,6 @@
 #include "Bullet.hpp"
+#include "ObjectPoints.hpp"
 #include "Simulation.hpp"
-#include "Vector3.hpp"
 #include <iostream>
 
 

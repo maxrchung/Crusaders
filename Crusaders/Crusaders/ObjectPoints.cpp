@@ -1,4 +1,9 @@
 #include "ObjectPoints.hpp"
+#include "ObjectFace.hpp"
+#include "Line.hpp"
+#include "ObjectLine.hpp"
+#include "ObjectSprite.hpp"
+#include "Simulation.hpp"
 
 ObjectPoints::ObjectPoints(Simulation* simulation, std::vector<Face> faces)
 	: simulation(simulation) {

@@ -1,12 +1,17 @@
 #include "Simulation.hpp"
-#include "Storyboard.hpp"
-#include "Overworld.hpp"
+#include "SpawnInfoManager.hpp"
+#include "Camera.hpp"
+#include "Character.hpp"
+#include "Boss.hpp"
+#include "Sprite.hpp"
+#include "ObjectLine.hpp"
+#include "ObjectSprite.hpp"
 #include "ObjectPoints.hpp"
+#include "Overworld.hpp"
 #include "BeatmapManager.hpp"
 #include "Bullet.hpp"
 
-Simulation::Simulation() 
-{
+Simulation::Simulation() {
 	// Probably where you want to initialize everything
 	spawnInfoManager = new SpawnInfoManager(this);
 
@@ -54,8 +59,11 @@ void Simulation::Update() {
 		// loop through bullet list
 		// bullet->Update()
 
-		// loop through deletion lists
-		// delete item
+		for (auto &d : delete_list) {
+			enemies.remove(d);
+		}
+
+		delete_list.clear();
 	}
 }
 

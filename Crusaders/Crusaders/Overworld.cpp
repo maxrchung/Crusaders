@@ -1,4 +1,6 @@
 #include "Overworld.hpp"
+#include "ObjectPoints.hpp"
+#include "Simulation.hpp"
 
 Overworld::Overworld(Simulation* simulation) 
 	: simulation(simulation) {

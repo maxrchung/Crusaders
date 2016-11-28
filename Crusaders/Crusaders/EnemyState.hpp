@@ -2,6 +2,5 @@
 
 enum class EnemyState {
 	Idle,
-	Attacking,
-	Dead
+	Dying
 };

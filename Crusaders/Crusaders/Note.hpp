@@ -1,6 +1,8 @@
 #pragma once
+
+class Simulation;
+
 #include "BeatmapObject.hpp"
-#include "Simulation.hpp"
 class Note : public BeatmapObject
 {
 public:

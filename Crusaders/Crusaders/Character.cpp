@@ -1,8 +1,10 @@
 #include "Character.hpp"
-#include <vector>
-#include "Simulation.hpp"
-#include "Vector3.hpp"
 #include "Bullet.hpp"
+#include "Simulation.hpp"
+#include "Camera.hpp"
+#include "ObjectPoints.hpp"
+#include <vector>
+
 Character::Character(Simulation* sim)
 	: simulation(sim), camera(new Camera(sim))
 {
@@ -20,7 +22,6 @@ Character::Character(Simulation* sim)
 
 }
 
-//character Draw() function,
 void Character::Update()
 {
 	simulation->camera->localVector = -gun->center + simulation->camera->position; //creates the local vector between camera and gungj	
