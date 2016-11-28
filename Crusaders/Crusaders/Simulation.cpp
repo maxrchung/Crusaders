@@ -23,6 +23,7 @@ Simulation::Simulation() {
 		Overworld* overworld = new Overworld(this);
 		overworld->objectPoints->Move(Vector3(-200, 200, 0));
 		overworld->objectPoints->Move(Vector3(200 * (i / 3), -200 * (i % 3), 0));
+		overworld->objectPoints->Color(Color(rand() % 255, rand() % 255, rand() % 255));
 		testWorlds.push_back(overworld);
 	}
 }
@@ -47,9 +48,9 @@ void Simulation::Update() {
 		// beatmapManager->Process();
 		// character->Update()
 
-		world->objectPoints->RotateX(M_PI / 10);
-		camera->RotateX(M_PI / 2);
-		camera->RotateY(M_PI / 2);
+		//world->objectPoints->RotateX(M_PI / 10);
+		//camera->RotateX(M_PI / 4);
+		//camera->RotateY(M_PI / 4);
 		camera->Move(Vector3(0, 0, -20));
 
 		for (auto &e : enemies) {
@@ -101,8 +102,8 @@ void Simulation::Draw() {
 				Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 				Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
 
-				// If both points are behind camera, don't draw it
-				if ((startCamCon.z >= 0 || endCamCon.z >= 0) && !objectSprite->reset) {
+				 //If both points are behind camera, don't draw it
+				if (startCamCon.z >= 0 && endCamCon.z >= 0) {
 					sprite->Fade(time, time, 0.0f, 0.0f);
 					objectSprite->reset = true;
 					continue;

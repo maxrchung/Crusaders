@@ -1,8 +1,9 @@
+#include "BeatmapManager.hpp"
 #include "Simulation.hpp"
 #include "Storyboard.hpp"
 #include <string>
 #include <iostream>
-#include "BeatmapManager.hpp"
+#include <time.h>
 #include <tuple>
 
 std::vector<std::string> createPath(int argc, char* argv[])
@@ -32,6 +33,8 @@ std::vector<std::string> createPath(int argc, char* argv[])
 }
 
 void main(int argc, char* argv[]) {
+	//srand(time(NULL));
+
 	Sprite* bg = new Sprite("dot.png");
 	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);
 	bg->Color(0, 100000, Color(0), Color(0));

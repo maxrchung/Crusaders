@@ -137,6 +137,30 @@ void ObjectPoints::ScaleTo(float scaleTo) {
 	}
 }
 
+void ObjectPoints::Color(::Color color) {
+	for (auto objectSprite : objectSprites) {
+		objectSprite->sprite->Color(simulation->time, simulation->time, color, color);
+	}
+}
+
+void ObjectPoints::Color(int startTime, int endTime, ::Color startColor, ::Color endColor) {
+	for (auto objectSprite : objectSprites) {
+		objectSprite->sprite->Color(startTime, endTime, startColor, endColor);
+	}
+}
+
+void ObjectPoints::Fade(float fade) {
+	for (auto objectSprite : objectSprites) {
+		objectSprite->sprite->Fade(simulation->time, simulation->time, fade, fade);
+	}
+}
+
+void ObjectPoints::Fade(int startTime, int endTime, float startFade, float endFade) {
+	for (auto objectSprite : objectSprites) {
+		objectSprite->sprite->Fade(startTime, endTime, startFade, endFade);
+	}
+}
+
 void ObjectPoints::Draw() {
 	simulation->DrawLoad(this);
 }

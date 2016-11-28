@@ -4,7 +4,7 @@
 
 
 Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
-	: simulation(simulation), position(position), direction(direction), fieldOfView(M_PI * 0.95f), screenMultiplier(Vector2::ScreenSize.x) {
+	: simulation(simulation), position(position), direction(direction), fieldOfView(M_PI * 0.99f), screenMultiplier(Vector2::ScreenSize.x) {
 	drawDistance = 1 / (tanf(fieldOfView / 2));
 }
 
@@ -48,12 +48,11 @@ Vector2 Camera::ApplyPerspective(Vector3 point, Vector3 other) {
 		Vector2 screenPoints = perspected * Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
 		return screenPoints;
 	}
-	//else {
-	//	if (other.z <= -drawDistance) {
-	//		Vector2 projectedNear = ProjectNear(point, other);
-	//		return projectedNear;
-	//	}
-	//}
+	else {
+		Vector2 projectedNear = ProjectNear(point, other);
+		Vector2 screenPoints = projectedNear * Vector2(Vector2::ScreenSize.x, Vector2::ScreenSize.x);
+		return screenPoints;
+	}
 }
 
 Vector2 Camera::ProjectNear(Vector3 behind, Vector3 far) {
