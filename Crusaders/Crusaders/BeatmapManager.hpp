@@ -5,11 +5,13 @@
 #include <iostream>
 #include "BeatmapObject.hpp"
 #include <tuple>
+class BeatmapObject;
 
 class BeatmapManager
 {
 public:
 	BeatmapManager(std::string& filepath, Simulation* sim);
+	void Process();
 
 private:
 	std::ifstream inputFile;
@@ -17,7 +19,7 @@ private:
 	std::string clearChars(std::string& line, char clearby);
 
 	std::vector<std::string> seperateLine(std::string& line, char clearby);
-	std::vector<BeatmapObject> mapObjects;
+	std::vector<BeatmapObject*> mapObjects;
 
 	void createMapObject(std::vector<std::string>& objectVector);
 

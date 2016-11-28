@@ -1,23 +1,20 @@
 #include "Simulation.hpp"
 #include "SpawnInfoManager.hpp"
+#include "Camera.hpp"
 #include "Character.hpp"
 #include "Boss.hpp"
 #include "Sprite.hpp"
-#include "Camera.hpp"
 #include "ObjectLine.hpp"
 #include "ObjectSprite.hpp"
 #include "ObjectPoints.hpp"
 #include "Overworld.hpp"
+#include "BeatmapManager.hpp"
+#include "Bullet.hpp"
 
-
-Simulation::Simulation() {
+Simulation::Simulation() 
 	// Probably where you want to initialize everything
-	spawnInfoManager = new SpawnInfoManager(this);
-
-	// new world
-	world = new Overworld(this);
-	character = new Character(this);
-	camera = character->camera;
+	: spawnInfoManager(new SpawnInfoManager(this)), world(new Overworld(this)), character(new Character(this)),	camera(character->camera), 
+	time(0), timeEnd(5000), delta(200), dps((float)delta / 1000), state(SimulationState::Level1), simulationRunning(true) {
 
 	for (int i = 0; i < 9; ++i) {
 		Overworld* overworld = new Overworld(this);
@@ -45,39 +42,39 @@ void Simulation::Run() {
 void Simulation::Update() {
 	if (state == SimulationState::Level1) {
 		//spawnInfoManager->Process(time);
-		// beatmapManager->Process();
-		// character->Update()
 
-		//world->objectPoints->RotateX(M_PI / 10);
-		//camera->RotateX(M_PI / 2);
+		world->objectPoints->RotateX(M_PI / 10);
+
+		//camera->RotateX(M_PI / 4);
 		//camera->RotateY(M_PI / 4);
-		camera->RotateZ(M_PI / 4);
-		//camera->Move(Vector3(0, 0, -20));
+		camera->Move(Vector3(0, 0, -10));
 
-		for (auto &e : enemies) {
+		for (auto e : bulletList)
+		{
+			e->Update();
+		}
+		for (auto e : enemies) {
 			e->Update();
 		}
 
 		// loop through bullet list
 		// bullet->Update()
 
-		for (auto &d : delete_list) {
+		for (auto d : delete_list) {
 			enemies.remove(d);
 		}
-
 		delete_list.clear();
 	}
 }
 
 void Simulation::Draw() {
-	for (auto &e : enemies) {
-		e->Draw();
+	for (auto enemy : enemies) {
+		enemy->Draw();
 	}
 
-	// Loop through bulletlist
-	// bullet.Draw();
-
 	//world->objectPoints->Draw();
+
+	character->Draw();
 
 	for (auto world : testWorlds) {
 		world->objectPoints->Draw();
@@ -130,7 +127,6 @@ void Simulation::Draw() {
 			}
 		}
 	}
-
 	loadObjectPoints.clear();
 }
 void Simulation::DrawLoad(ObjectPoints* objectPoints)

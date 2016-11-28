@@ -7,6 +7,7 @@ class Simulation;
 class Camera {
 public:
 	Camera(Simulation* simulation, Vector3 position = Vector3::Zero, Vector3 direction = Vector3(0, 0, -1));
+
 	void Move(Vector3 move);
 	void MoveTo(Vector3 moveTo);
 
@@ -20,6 +21,7 @@ public:
 	Vector2 ApplyPerspective(Vector3 point, Vector3 other);
 	Vector2 ProjectNear(Vector3 behind, Vector3 far);
 
+	Vector3 localVector;
 	Vector3 position;
 	Vector3 direction;
 	Simulation* simulation;

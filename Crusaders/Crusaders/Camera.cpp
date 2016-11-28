@@ -1,6 +1,7 @@
 #include "Camera.hpp"
 #include "ObjectPoints.hpp"
 #include "Simulation.hpp"
+#include "Character.hpp"
 
 
 Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
@@ -9,6 +10,7 @@ Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
 }
 
 void Camera::Move(Vector3 move) {
+	simulation->character->gun->Move(move); //multiplying dps twice causes this not to move
 	move *= simulation->dps;
 	position += move;
 }
@@ -21,6 +23,12 @@ void Camera::MoveTo(Vector3 moveTo) {
 void Camera::Rotate(float rotateX, float rotateY, float rotateZ) {
 	Vector3 rotatedDirection = direction.Rotate(rotateX, rotateY, rotateZ).Normalize();
 	direction = rotatedDirection;
+	simulation->character->gun->Rotate(rotateX, -rotateY, -rotateZ);//.Normalize();
+	Vector3 local = simulation->character->gun->center - position;
+	Vector3 localRotated = local.Rotate(rotateX, -rotateY, -rotateZ);
+	Vector3 offsetPos = position + localRotated;
+	simulation->character->gun->MoveTo(offsetPos);
+
 }
 
 void Camera::RotateX(float rotateX) {
@@ -34,6 +42,7 @@ void Camera::RotateY(float rotateY) {
 }
 
 void Camera::RotateZ(float rotateZ) {
+	rotateZ *= simulation->dps;
 	Rotate(0, 0, rotateZ);
 }
 
