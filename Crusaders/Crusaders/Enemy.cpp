@@ -21,8 +21,6 @@ void Enemy::Update() {
 
 	if (Enemy::state == EnemyState::Idle) {
 		object->RotateY(M_PI / 3);
-		
-
 	}
 	else if (Enemy::state == EnemyState::Dying) {
 		temp_time += object->simulation->delta;

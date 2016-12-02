@@ -16,21 +16,20 @@ SpawnInfoManager::SpawnInfoManager(Simulation* simulation)
 	});
 }
 
-void SpawnInfoManager::Process(int time) {
-	ObjectType enemy;
+void SpawnInfoManager::Process() {
 	if (!SpawnInfoManager::spawnInfos.empty()) {
-		if (time >= SpawnInfoManager::spawnInfos.front().spawn.ms) {
-			enemy = SpawnInfoManager::spawnInfos.front().type;
-			Enemy* enemy_object;
-			switch (enemy) {
+		if (simulation->time >= SpawnInfoManager::spawnInfos.front().spawn.ms) {
+			ObjectType enemyType = SpawnInfoManager::spawnInfos.front().type;
+
+			switch (enemyType) {
 			case ObjectType::Basic:
-				enemy_object = new Enemy(simulation, SpawnInfoManager::spawnInfos.front());
+				simulation->enemies.push_back(new Enemy(simulation, SpawnInfoManager::spawnInfos.front()));
 				break;
 			case ObjectType::Boss:
-				enemy_object = new Boss(simulation, SpawnInfoManager::spawnInfos.front());
+				simulation->enemies.push_back(new Boss(simulation, SpawnInfoManager::spawnInfos.front()));
 				break;
 			}
-			simulation->enemies.push_back(enemy_object);
+			
 			SpawnInfoManager::spawnInfos.pop_front();
 		}
 	}

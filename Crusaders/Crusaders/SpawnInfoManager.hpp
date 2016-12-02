@@ -9,7 +9,7 @@ class SpawnInfoManager {
 public:
 	SpawnInfoManager();
 	SpawnInfoManager(Simulation* simulation);
-	void Process(int time);
+	void Process();
 
 	std::list<SpawnInfo> spawnInfos;
 
