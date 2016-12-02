@@ -5,32 +5,6 @@
 #include <iostream>
 #include <time.h>
 
-std::vector<std::string> createPath(int argc, char* argv[])
-{
-	std::string completepath = "";
-	std::string typedPath = argv[argc - 1];
-	std::vector<std::string> twoPaths;
-
-	for (int i = 1; i < argc; ++i)
-	{
-		completepath += argv[i]; //fix the deletion of spaces at argv[argc-1] index
-	}
-
-	if (typedPath[typedPath.length() - 1] == '\\' )
-	{
-		twoPaths.push_back(completepath + "Quarks - Crusaders in Virtuality (Brenn52).osb");
-		twoPaths.push_back(completepath + "Quarks - Crusaders In Virtuality (Brenn52) [Easy].osu");
-	}
-	else
-	{
-		twoPaths.push_back(completepath + "\\Quarks - Crusaders in Virtuality (Brenn52).osb");
-		twoPaths.push_back(completepath + "\\Quarks - Crusaders In Virtuality (Brenn52) [Easy].osu");
-	}
-	std::cout << twoPaths[1] << std::endl;
-	return twoPaths;
-	
-}
-
 void main(int argc, char* argv[]) {
 	//srand(time(NULL));
 
@@ -38,16 +12,16 @@ void main(int argc, char* argv[]) {
 	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);
 	bg->Color(0, 100000, Color(0), Color(0));
 
-	std::vector<std::string> completepaths = createPath(argc, argv);
-
-	std::string s = std::string(completepaths[1]);
-
 	Simulation* simulation = new Simulation();
-	BeatmapManager BMM = BeatmapManager(simulation, s);
+	std::string beatmapPath = argv[argc - 1];
+	BeatmapManager BMM = BeatmapManager(simulation, beatmapPath);
 	simulation->beatmapManager = &BMM;
 	simulation->Run();
 
-	Storyboard::Instance()->Write(completepaths[0]);
+	int songNameIndex = beatmapPath.find_last_of('[');
+	std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
+	std::string storyboardPath = songNamePath + ".osb";
+	Storyboard::Instance()->Write(storyboardPath);
 
 	//std::cin.get();
 }
