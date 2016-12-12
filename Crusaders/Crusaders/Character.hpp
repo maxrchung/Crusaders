@@ -7,8 +7,7 @@ class ObjectPoints;
 #include "CharacterState.hpp"
 #include "Vector3.hpp"
 
-class Character
-{
+class Character {
 public:
 	Character(Simulation* sim);
 	

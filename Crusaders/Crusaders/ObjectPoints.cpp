@@ -98,7 +98,6 @@ void ObjectPoints::MoveTo(Vector3 moveTo) {
 	for (auto objectPoint : objectPoints) {
 		*objectPoint += move;
 	}
-
 }
 
 void ObjectPoints::Rotate(float rotateX, float rotateY, float rotateZ) {

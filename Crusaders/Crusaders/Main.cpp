@@ -14,8 +14,7 @@ void main(int argc, char* argv[]) {
 
 	Simulation* simulation = new Simulation();
 	std::string beatmapPath = argv[argc - 1];
-	BeatmapManager BMM = BeatmapManager(simulation, beatmapPath);
-	simulation->beatmapManager = &BMM;
+	simulation->beatmapManager = new BeatmapManager(simulation, beatmapPath);
 	simulation->Run();
 
 	int songNameIndex = beatmapPath.find_last_of('[');

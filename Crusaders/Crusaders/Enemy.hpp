@@ -6,7 +6,7 @@ class ObjectPoints;
 #include "SpawnInfo.hpp"
 #include "EnemyState.hpp"
 
-class Enemy{
+class Enemy {
 public:
 	Enemy() {};
 	Enemy(Simulation* simulation, SpawnInfo spawninfo);

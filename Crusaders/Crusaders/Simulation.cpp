@@ -12,7 +12,7 @@
 #include "Bullet.hpp"
 
 Simulation::Simulation() 
-	: time(5000),
+	: time(0),
 	timeEnd(10000), 
 	delta(200), 
 	dps((float)delta / 1000), 
@@ -52,11 +52,11 @@ void Simulation::Run() {
 void Simulation::Update() {
 	if (state == SimulationState::Level1) {
 		//spawnInfoManager->Process(time);
-		beatmapManager->Process();
+		//beatmapManager->Process();
 
 		world->objectPoints->RotateX(M_PI / 10);
 
-		//camera->RotateX(M_PI / 4);
+		camera->RotateX(M_PI / 4);
 		//camera->RotateY(M_PI / 4);
 		//camera->Move(Vector3(0, 0, -10));
 
@@ -86,33 +86,39 @@ void Simulation::DrawLoad(ObjectPoints* objectPoints) {
 }
 
 void Simulation::Draw() {
-	for (auto enemy : enemies) {
-		enemy->Draw();
-	}
+	//for (auto enemy : enemies) {
+	//	enemy->Draw();
+	//}
 
-	for (auto bullet : bullets) {
-		bullet->Draw();
-	}
+	//for (auto bullet : bullets) {
+	//	bullet->Draw();
+	//}
 
 	character->Draw();
 
 	//world->objectPoints->Draw();
 
-	//for (auto world : testWorlds) {
-	//	world->objectPoints->Draw();
-	//}
+	for (auto world : testWorlds) {
+		world->objectPoints->Draw();
+	}
 }
 
 void Simulation::DrawRender() {
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
 	// Be careful using the above. It's okay in explaining some of the theory,
-	// but the axes are not the same in OsuukiSB.
+	// but the axes are not the same.
 	Vector3 camPos = camera->position;
 	Vector3 camDir = camera->direction;
 	float heading = atan2(camDir.x, -camDir.z);
-	float pitch = asin(camDir.y);
+	float pitch;
+	if (camDir.z < 0)
+		pitch = asin(camDir.y);
+	else if (camDir.y > 0)
+		pitch = M_PI - asin(camDir.y);
+	else
+		pitch = -M_PI - asin(camDir.y);
 	float bank = 0;
-	Vector3 camRot = Vector3(-pitch, -heading, -bank);
+	Vector3 camRot = Vector3(-pitch, 0, 0);
 
 	if (state == SimulationState::Level1) {
 		for (auto objectPoints : loadObjectPoints) {
@@ -124,8 +130,8 @@ void Simulation::DrawRender() {
 				Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 				Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
 
-				//If both points are behind camera, don't draw it
-				if (startCamCon.z >= 0 && endCamCon.z >= 0) {
+				// If both points are behind camera, don't draw it
+				if (startCamCon.z >= 0 || endCamCon.z >= 0) {
 					sprite->Fade(time, time, 0.0f, 0.0f);
 					objectSprite->reset = true;
 					continue;
