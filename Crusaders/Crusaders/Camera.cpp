@@ -5,7 +5,7 @@
 
 
 Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
-	: simulation(simulation), position(position), direction(direction), fieldOfView(M_PI * 0.95f), screenMultiplier(Vector2::ScreenSize.x) {
+	: simulation(simulation), position(position), direction(direction), directionRotations(Vector3::Zero), fieldOfView(M_PI * 0.95f), screenMultiplier(Vector2::ScreenSize.x) {
 	drawDistance = 1 / (tanf(fieldOfView / 2));
 }
 
@@ -23,6 +23,7 @@ void Camera::MoveTo(Vector3 moveTo) {
 
 void Camera::Rotate(float rotateX, float rotateY, float rotateZ) {
 	direction = direction.Rotate(rotateX, rotateY, rotateZ).Normalize();
+	directionRotations += Vector3(rotateX, rotateY, rotateZ);
 
 	ObjectPoints* gun = simulation->character->gun;
 	gun->Rotate(rotateX, rotateY, rotateZ);

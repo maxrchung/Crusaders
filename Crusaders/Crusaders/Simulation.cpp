@@ -56,7 +56,9 @@ void Simulation::Update() {
 
 		world->objectPoints->RotateX(M_PI / 10);
 
+		camera->RotateY(M_PI / 4);
 		camera->RotateX(M_PI / 4);
+
 		//camera->RotateY(M_PI / 4);
 		//camera->Move(Vector3(0, 0, -10));
 
@@ -107,18 +109,12 @@ void Simulation::DrawRender() {
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
 	// Be careful using the above. It's okay in explaining some of the theory,
 	// but the axes are not the same.
+	// The above is still a good reference, but having to take care of a lot of bullshit cases
+	// when angles are negative can be really difficult. I decided to make my life easy to track
+	// both a direction Vector3 and also the actual rotation amounts with directionRotations.
 	Vector3 camPos = camera->position;
 	Vector3 camDir = camera->direction;
-	float heading = atan2(camDir.x, -camDir.z);
-	float pitch;
-	if (camDir.z < 0)
-		pitch = asin(camDir.y);
-	else if (camDir.y > 0)
-		pitch = M_PI - asin(camDir.y);
-	else
-		pitch = -M_PI - asin(camDir.y);
-	float bank = 0;
-	Vector3 camRot = Vector3(-pitch, 0, 0);
+	Vector3 camRot = camera->directionRotations;
 
 	if (state == SimulationState::Level1) {
 		for (auto objectPoints : loadObjectPoints) {

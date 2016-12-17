@@ -22,7 +22,10 @@ public:
 	Vector2 ProjectNear(Vector3 behind, Vector3 far);
 
 	Vector3 position;
+	// Unit vector pointing in camera's direction
 	Vector3 direction;
+	// The x, y, and z rotations to get to the direction Vector3
+	Vector3 directionRotations;
 	Simulation* simulation;
 	float drawDistance;
 	float fieldOfView;
