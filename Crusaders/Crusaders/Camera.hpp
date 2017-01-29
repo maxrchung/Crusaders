@@ -2,7 +2,9 @@
 
 class Simulation;
 
+#include "CameraComponent.hpp"
 #include "Vector3.hpp"
+#include <vector>
 
 class Camera {
 public:
@@ -20,6 +22,12 @@ public:
 	// We need other so we can calculate a projection to the drawDistance if necessary
 	Vector2 ApplyPerspective(Vector3 point, Vector3 other);
 	Vector2 ProjectNear(Vector3 behind, Vector3 far);
+
+	void Update();
+	void UpdateComponents();
+	void DrawComponents();
+
+	std::vector<CameraComponent> components;
 
 	Vector3 position;
 	// Unit vector pointing in camera's direction

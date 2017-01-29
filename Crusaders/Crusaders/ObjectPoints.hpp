@@ -22,11 +22,15 @@ public:
 	// Local
 	void Rotate(float rotateX, float rotateY, float rotateZ);
 	// Local
+	void Rotate(Vector3 rotate);
+	// Local
 	void RotateX(float rotateX);
 	// Local
 	void RotateY(float rotateY);
 	// Local
 	void RotateZ(float rotateZ);
+	// Global
+	void RotateTo(Vector3 rotateTo);
 
 	// Local
 	void Scale(float scale);
@@ -47,7 +51,6 @@ public:
 	// Be careful using this and only call this once, it doesn't make sense to call this repeatedly
 	void Fade(int startTime, int endTime, float startFade, float endFade);
 
-
 	void Draw();
 
 	Simulation* simulation;
@@ -58,4 +61,5 @@ public:
 	std::vector<ObjectSprite*> objectSprites;
 
 	Vector3 center;
+	Vector3 rotation;
 };

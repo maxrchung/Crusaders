@@ -1,5 +1,4 @@
 #include "Bullet.hpp"
-#include "Character.hpp"
 #include "ObjectPoints.hpp"
 #include "Simulation.hpp"
 #include <iostream>

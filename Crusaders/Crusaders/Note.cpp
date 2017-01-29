@@ -1,6 +1,5 @@
 #include "Bullet.hpp"
 #include "Camera.hpp"
-#include "Character.hpp"
 #include "Note.hpp"
 #include "ObjectPoints.hpp"
 #include "Simulation.hpp"
@@ -17,7 +16,7 @@ void Note::Update()
 	//is updating properly
 	if (simulation->time > startTime && !finished)
 	{
-		simulation->bullets.push_back(new Bullet(simulation, simulation->character->gun->center, simulation->character->camera->direction));
+		//simulation->bullets.push_back(new Bullet(simulation, simulation->character->gun->center, simulation->character->camera->direction));
 		finished = true;
 	}
 }

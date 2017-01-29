@@ -100,25 +100,42 @@ void ObjectPoints::MoveTo(Vector3 moveTo) {
 	}
 }
 
+// Be careful of simulation->dps reducing rotations
 void ObjectPoints::Rotate(float rotateX, float rotateY, float rotateZ) {
+	rotateX *= simulation->dps;
+	rotateY *= simulation->dps;
+	rotateZ *= simulation->dps;
+	
+	rotation += Vector3(rotateX, rotateY, rotateZ);
+
 	for (auto objectPoint : objectPoints) {
-		*objectPoint = (*objectPoint - center).Rotate(rotateX, rotateY, rotateZ) + center;
+		Vector3 local = *objectPoint - center;
+		Vector3 localRotated = local.Rotate(rotateX, rotateY, rotateZ);
+		Vector3 offsetPos = localRotated + center;
+		*objectPoint = offsetPos;
 	}
 }
 
+void ObjectPoints::Rotate(Vector3 rotate) {
+	Rotate(rotate.x, rotate.y, rotate.z);
+}
+
 void ObjectPoints::RotateX(float rotateX) {
-	rotateX *= simulation->dps;
 	Rotate(rotateX, 0, 0);
 }
 
 void ObjectPoints::RotateY(float rotateY) {
-	rotateY *= simulation->dps;
 	Rotate(0, rotateY, 0);
 }
 
 void ObjectPoints::RotateZ(float rotateZ) {
-	rotateZ *= simulation->dps;
 	Rotate(0, 0, rotateZ);
+}
+
+void ObjectPoints::RotateTo(Vector3 rotationTo) {
+	// Need to add simulation->dps so we don't have reduced values
+	Rotate(-rotation * simulation->dps);
+	Rotate(rotationTo * simulation->dps);
 }
 
 void ObjectPoints::Scale(float scale) {

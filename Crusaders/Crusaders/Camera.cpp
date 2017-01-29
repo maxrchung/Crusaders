@@ -1,17 +1,14 @@
 #include "Camera.hpp"
 #include "ObjectPoints.hpp"
 #include "Simulation.hpp"
-#include "Character.hpp"
 
-
-Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction)
+Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction) 
 	: simulation(simulation), position(position), direction(direction), directionRotations(Vector3::Zero), fieldOfView(M_PI * 0.95f), screenMultiplier(Vector2::ScreenSize.x) {
 	drawDistance = 1 / (tanf(fieldOfView / 2));
 }
 
 void Camera::Move(Vector3 move) {
 	// Must be careful not to affect dps twice
-	simulation->character->gun->Move(move); 
 	move *= simulation->dps;
 	position += move;
 }
@@ -22,35 +19,29 @@ void Camera::MoveTo(Vector3 moveTo) {
 }
 
 void Camera::Rotate(float rotateX, float rotateY, float rotateZ) {
+	rotateX *= simulation->dps;
+	rotateY *= simulation->dps;
+	rotateZ *= simulation->dps;
+
 	direction = direction.Rotate(rotateX, rotateY, rotateZ).Normalize();
 	directionRotations += Vector3(rotateX, rotateY, rotateZ);
-
-	ObjectPoints* gun = simulation->character->gun;
-	gun->Rotate(rotateX, rotateY, rotateZ);
-	Vector3 local = gun->center - position;
-	Vector3 localRotated = local.Rotate(rotateX, rotateY, rotateZ);
-	Vector3 offsetPos = position + localRotated;
-	gun->MoveTo(offsetPos);
 }
 
 void Camera::RotateX(float rotateX) {
-	rotateX *= simulation->dps;
 	Rotate(rotateX, 0, 0);
 }
 
 void Camera::RotateY(float rotateY) {
-	rotateY *= simulation->dps;
 	Rotate(0, rotateY, 0);
 }
 
 void Camera::RotateZ(float rotateZ) {
-	rotateZ *= simulation->dps;
 	Rotate(0, 0, rotateZ);
 }
 
 Vector3 Camera::ConvertPoint(Vector3 point, Vector3 camPos, Vector3 camRot) {
 	Vector3 diff = point - camPos;
-	Vector3 camCoor = diff.Rotate(camRot.x, camRot.y, camRot.z);
+	Vector3 camCoor = diff.Rotate(-camRot.x, -camRot.y, -camRot.z);
 	return camCoor;
 }
 
@@ -84,4 +75,38 @@ Vector2 Camera::ProjectNear(Vector3 behind, Vector3 far) {
 	Vector3 projectedNear = originalFar - Vector3(perspected.x, perspected.y, projectDistance);
 
 	return Vector2(projectedNear.x, projectedNear.y);
+}
+
+int x = 0;
+bool up = true;
+void Camera::Update() {
+	x++;
+	if (x == 4 && up) {
+		up = false;
+		x = 0;
+	}
+	else if (x == 4 && !up) {
+		up = true;
+		x = 0;
+	}
+
+	if (up) {
+		RotateY(M_PI / 4);
+	}
+	else {
+		RotateX(M_PI / 4);
+	}
+}
+
+void Camera::UpdateComponents() {
+	for (auto& component : components) {
+		component.objectPoints->RotateTo(directionRotations);
+		component.objectPoints->MoveTo(component.anchor);
+	}
+}
+
+void Camera::DrawComponents() {
+	for (auto& component : components) {
+		component.objectPoints->Draw();
+	}
 }

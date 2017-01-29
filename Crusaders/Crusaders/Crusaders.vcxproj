@@ -153,10 +153,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BeatmapManager.cpp" />
-    <ClCompile Include="Boss.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="Character.cpp" />
-    <ClCompile Include="Enemy.cpp" />
+    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -171,17 +169,13 @@
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Spinner.cpp" />
-    <ClCompile Include="SpawnInfo.cpp" />
-    <ClCompile Include="SpawnInfoManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Basic.hpp" />
     <ClInclude Include="BeatmapManager.hpp" />
-    <ClInclude Include="Boss.hpp" />
     <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="Character.hpp" />
+    <ClInclude Include="CameraComponent.hpp" />
     <ClInclude Include="CharacterState.hpp" />
-    <ClInclude Include="Enemy.hpp" />
     <ClInclude Include="EnemyState.hpp" />
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
@@ -198,8 +192,6 @@
     <ClInclude Include="ObjectType.hpp" />
     <ClInclude Include="Overworld.hpp" />
     <ClInclude Include="SimulationState.hpp" />
-    <ClInclude Include="SpawnInfo.hpp" />
-    <ClInclude Include="SpawnInfoManager.hpp" />
     <ClInclude Include="Simulation.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

@@ -6,7 +6,7 @@
 #include <time.h>
 
 void main(int argc, char* argv[]) {
-	//srand(time(NULL));
+	srand(time(NULL));
 
 	Sprite* bg = new Sprite("dot.png");
 	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);

@@ -29,9 +29,7 @@ public:
 	// Draws all loaded objects and clears list
 	void DrawRender();
 
-	SpawnInfoManager* spawnInfoManager;
 	SimulationState state;
-	Overworld* world;
 	Character* character;
 	Camera* camera;
 	BeatmapManager* beatmapManager;
@@ -46,10 +44,4 @@ public:
 	// Then, Simulation will draw the objects
 	// Once Simulation finishes drawing, it clears this data structure for the next frame
 	std::vector<ObjectPoints*> loadObjectPoints;
-	std::list<Bullet*> bullets;
-	std::list<Bullet*> bulletsToDelete;
-	std::list<Enemy*> enemies;
-	std::list<Enemy*> enemiesToDelete;
-
-	std::vector<Overworld*> testWorlds;
 };

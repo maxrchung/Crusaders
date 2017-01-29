@@ -1,8 +1,5 @@
 #include "Simulation.hpp"
-#include "SpawnInfoManager.hpp"
 #include "Camera.hpp"
-#include "Character.hpp"
-#include "Boss.hpp"
 #include "Sprite.hpp"
 #include "ObjectLine.hpp"
 #include "ObjectSprite.hpp"
@@ -19,18 +16,7 @@ Simulation::Simulation()
 	state(SimulationState::Level1), 
 	simulationRunning(true) {
 
-	spawnInfoManager = new SpawnInfoManager(this);
-	world = new Overworld(this);
-	character = new Character(this);
-	camera = character->camera;
-
-	for (int i = 0; i < 9; ++i) {
-		Overworld* overworld = new Overworld(this);
-		overworld->objectPoints->Move(Vector3(-200, 200, 0));
-		overworld->objectPoints->Move(Vector3(200 * (i / 3), -200 * (i % 3), 0));
-		overworld->objectPoints->Color(Color(rand() % 255, rand() % 255, rand() % 255));
-		testWorlds.push_back(overworld);
-	}
+	camera = new Camera(this);
 }
 
 void Simulation::Run() {
@@ -50,37 +36,11 @@ void Simulation::Run() {
 }
 
 void Simulation::Update() {
-	if (state == SimulationState::Level1) {
-		//spawnInfoManager->Process(time);
-		//beatmapManager->Process();
-
-		world->objectPoints->RotateX(M_PI / 10);
-
-		camera->RotateY(M_PI / 4);
-		camera->RotateX(M_PI / 4);
-
-		//camera->RotateY(M_PI / 4);
-		//camera->Move(Vector3(0, 0, -10));
-
-		for (auto bullet : bullets) {
-			bullet->Update();
-		}
-	}
+	camera->Update();
+	camera->UpdateComponents();
 }
 
 void Simulation::UpdateDelete() {
-	for (auto bullet : bulletsToDelete) {
-		bullets.remove(bullet);
-	}
-	bulletsToDelete.clear();
-
-	for (auto enemy : enemies) {
-		enemy->Update();
-	}
-	for (auto marked : enemiesToDelete) {
-		enemies.remove(marked);
-	}
-	enemiesToDelete.clear();
 }
 
 void Simulation::DrawLoad(ObjectPoints* objectPoints) {
@@ -88,32 +48,17 @@ void Simulation::DrawLoad(ObjectPoints* objectPoints) {
 }
 
 void Simulation::Draw() {
-	//for (auto enemy : enemies) {
-	//	enemy->Draw();
-	//}
-
-	//for (auto bullet : bullets) {
-	//	bullet->Draw();
-	//}
-
-	character->Draw();
-
-	//world->objectPoints->Draw();
-
-	for (auto world : testWorlds) {
-		world->objectPoints->Draw();
-	}
+	camera->DrawComponents();
 }
 
 void Simulation::DrawRender() {
 	// http://stackoverflow.com/questions/21622956/how-to-convert-direction-vector-to-euler-angles
 	// Be careful using the above. It's okay in explaining some of the theory,
 	// but the axes are not the same.
-	// The above is still a good reference, but having to take care of a lot of bullshit cases
+	// The above is still a good reference, but having to take care of a lot of wanky cases
 	// when angles are negative can be really difficult. I decided to make my life easy to track
 	// both a direction Vector3 and also the actual rotation amounts with directionRotations.
 	Vector3 camPos = camera->position;
-	Vector3 camDir = camera->direction;
 	Vector3 camRot = camera->directionRotations;
 
 	if (state == SimulationState::Level1) {
