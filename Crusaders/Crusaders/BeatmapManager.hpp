@@ -1,17 +1,19 @@
 #pragma once
-#include <string>
-#include <fstream>
-#include <vector>
-#include <iostream>
-#include "BeatmapObject.hpp"
-#include <tuple>
-class BeatmapObject;
 
-class BeatmapManager
-{
+class BeatmapObject;
+class Path;
+
+#include "BeatmapObject.hpp"
+#include <fstream>
+#include <string>
+#include <tuple>
+#include <vector>
+
+class BeatmapManager {
 public:
-	BeatmapManager(Simulation* sim, std::string& filepath);
+	BeatmapManager(std::string& filepath);
 	void Process();
+	Path* GeneratePath();
 
 private:
 	std::ifstream inputFile;
@@ -24,6 +26,4 @@ private:
 	void createMapObject(std::vector<std::string>& objectVector);
 
 	std::vector<std::tuple<int, int>> getSliderTransitions(std::string transits);
-	Simulation* simulation;
-
 };

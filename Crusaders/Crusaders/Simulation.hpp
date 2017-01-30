@@ -3,12 +3,8 @@
 
 class SpawnInfoManager;
 class ObjectPoints;
-class Overworld;
 class Camera;
-class Character;
-class Enemy;
-class BeatmapManager;
-class Bullet;
+class Path;
 
 #include "SimulationState.hpp"
 #include <iostream>
@@ -17,7 +13,7 @@ class Bullet;
 
 class Simulation {
 public:
-	Simulation();
+	Simulation(Path* path);
 	void Run();
 	void Update();
 	// Separated this out from Update function to differentiate deletion
@@ -30,9 +26,7 @@ public:
 	void DrawRender();
 
 	SimulationState state;
-	Character* character;
 	Camera* camera;
-	BeatmapManager* beatmapManager;
 
 	bool simulationRunning;
 	int time;

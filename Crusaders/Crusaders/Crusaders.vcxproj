@@ -154,7 +154,6 @@
   <ItemGroup>
     <ClCompile Include="BeatmapManager.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraComponent.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Main.cpp" />
@@ -162,35 +161,27 @@
     <ClCompile Include="ObjectLine.cpp" />
     <ClCompile Include="ObjectPoints.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
-    <ClCompile Include="Overworld.cpp" />
+    <ClCompile Include="Path.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="BeatmapObject.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Note.cpp" />
-    <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="Spinner.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Basic.hpp" />
     <ClInclude Include="BeatmapManager.hpp" />
     <ClInclude Include="Camera.hpp" />
-    <ClInclude Include="CameraComponent.hpp" />
-    <ClInclude Include="CharacterState.hpp" />
-    <ClInclude Include="EnemyState.hpp" />
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
-    <ClInclude Include="Bullet.hpp" />
+    <ClInclude Include="Path.hpp" />
     <ClInclude Include="Spinner.hpp" />
     <ClInclude Include="Note.hpp" />
     <ClInclude Include="Slider.hpp" />
     <ClInclude Include="Line.hpp" />
-    <ClInclude Include="Object.hpp" />
     <ClInclude Include="ObjectFace.hpp" />
     <ClInclude Include="ObjectLine.hpp" />
     <ClInclude Include="ObjectPoints.hpp" />
     <ClInclude Include="ObjectSprite.hpp" />
-    <ClInclude Include="ObjectType.hpp" />
-    <ClInclude Include="Overworld.hpp" />
     <ClInclude Include="SimulationState.hpp" />
     <ClInclude Include="Simulation.hpp" />
   </ItemGroup>

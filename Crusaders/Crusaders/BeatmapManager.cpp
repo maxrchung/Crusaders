@@ -1,19 +1,18 @@
 #include "BeatmapManager.hpp"
-#include <iostream>
-#include <vector>
-#include <fstream>
-#include <sstream>
-#include <cstdlib>
-#include "BeatmapObject.hpp"
-#include <tuple>
 #include "Slider.hpp"
 #include "Note.hpp"
 #include "Spinner.hpp"
+#include "Path.hpp"
+#include <iostream>
+#include <sstream>
 
-BeatmapManager::BeatmapManager(Simulation* sim, std::string& filepath)
-	: simulation(sim)
+BeatmapManager::BeatmapManager(std::string& filepath)
 {
 	readFile(filepath);
+}
+
+Path* BeatmapManager::GeneratePath() {
+	return new Path();
 }
 
 void BeatmapManager::Process()
@@ -127,15 +126,15 @@ void BeatmapManager::createMapObject(std::vector<std::string>& objectVector)
 	std::cout << objectVector.size() << std::endl;
 	if (vectorLength == 6 && !isSlider)
 	{
-		mapObjects.push_back(new Note(simulation, std::stoi(objectVector[2])));
+		mapObjects.push_back(new Note(std::stoi(objectVector[2])));
 	}
 	else if (vectorLength == 7 && !isSlider)
 	{
-		mapObjects.push_back(new Spinner(simulation, std::stoi(objectVector[2]), std::stoi(objectVector[5])));
+		mapObjects.push_back(new Spinner(std::stoi(objectVector[2]), std::stoi(objectVector[5])));
 	}
 	else if (vectorLength >= 8 && isSlider)
 	{
-		mapObjects.push_back(new Slider(simulation, std::stoi(objectVector[0]), std::stoi(objectVector[1]), std::stoi(objectVector[2]), getSliderTransitions(stringer)));
+		mapObjects.push_back(new Slider(std::stoi(objectVector[0]), std::stoi(objectVector[1]), std::stoi(objectVector[2]), getSliderTransitions(stringer)));
 	}
 	//3 cases: len of 5 == note, len of 7 without BPLC == spinner, len of 6 or more, with BPLC = slider.
 }

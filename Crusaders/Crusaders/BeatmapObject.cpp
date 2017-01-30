@@ -1,7 +1,6 @@
 #include "BeatmapObject.hpp"
-#include "Simulation.hpp"
 
-BeatmapObject::BeatmapObject(Simulation* simulation, int startTime, bool finished)
-	: simulation(simulation), startTime(startTime), finished(finished)
+BeatmapObject::BeatmapObject(int startTime, bool finished)
+	: startTime(startTime), finished(finished)
 {
 }

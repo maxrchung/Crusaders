@@ -1,4 +1,5 @@
 #include "BeatmapManager.hpp"
+#include "Path.hpp"
 #include "Simulation.hpp"
 #include "Storyboard.hpp"
 #include <string>
@@ -12,15 +13,17 @@ void main(int argc, char* argv[]) {
 	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);
 	bg->Color(0, 100000, Color(0), Color(0));
 
-	Simulation* simulation = new Simulation();
 	std::string beatmapPath = argv[argc - 1];
-	simulation->beatmapManager = new BeatmapManager(simulation, beatmapPath);
-	simulation->Run();
+	BeatmapManager* beatmapManager = new BeatmapManager(beatmapPath);
+	Path* path = beatmapManager->GeneratePath();
 
-	int songNameIndex = beatmapPath.find_last_of('[');
-	std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
-	std::string storyboardPath = songNamePath + ".osb";
-	Storyboard::Instance()->Write(storyboardPath);
+	//Simulation* simulation = new Simulation(path);
+	//simulation->Run();
+
+	//int songNameIndex = beatmapPath.find_last_of('[');
+	//std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
+	//std::string storyboardPath = songNamePath + ".osb";
+	//Storyboard::Instance()->Write(storyboardPath);
 
 	//std::cin.get();
 }

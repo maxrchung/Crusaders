@@ -2,7 +2,6 @@
 
 class Simulation;
 
-#include "CameraComponent.hpp"
 #include "Vector3.hpp"
 #include <vector>
 
@@ -24,10 +23,6 @@ public:
 	Vector2 ProjectNear(Vector3 behind, Vector3 far);
 
 	void Update();
-	void UpdateComponents();
-	void DrawComponents();
-
-	std::vector<CameraComponent> components;
 
 	Vector3 position;
 	// Unit vector pointing in camera's direction

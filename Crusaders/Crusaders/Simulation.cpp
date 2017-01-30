@@ -4,18 +4,15 @@
 #include "ObjectLine.hpp"
 #include "ObjectSprite.hpp"
 #include "ObjectPoints.hpp"
-#include "Overworld.hpp"
 #include "BeatmapManager.hpp"
-#include "Bullet.hpp"
 
-Simulation::Simulation() 
+Simulation::Simulation(Path* path) 
 	: time(0),
 	timeEnd(10000), 
 	delta(200), 
 	dps((float)delta / 1000), 
 	state(SimulationState::Level1), 
 	simulationRunning(true) {
-
 	camera = new Camera(this);
 }
 
@@ -37,7 +34,6 @@ void Simulation::Run() {
 
 void Simulation::Update() {
 	camera->Update();
-	camera->UpdateComponents();
 }
 
 void Simulation::UpdateDelete() {
@@ -48,7 +44,6 @@ void Simulation::DrawLoad(ObjectPoints* objectPoints) {
 }
 
 void Simulation::Draw() {
-	camera->DrawComponents();
 }
 
 void Simulation::DrawRender() {

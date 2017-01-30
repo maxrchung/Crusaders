@@ -97,16 +97,3 @@ void Camera::Update() {
 		RotateX(M_PI / 4);
 	}
 }
-
-void Camera::UpdateComponents() {
-	for (auto& component : components) {
-		component.objectPoints->RotateTo(directionRotations);
-		component.objectPoints->MoveTo(component.anchor);
-	}
-}
-
-void Camera::DrawComponents() {
-	for (auto& component : components) {
-		component.objectPoints->Draw();
-	}
-}
