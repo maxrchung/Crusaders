@@ -5,9 +5,7 @@
 class Spinner : public BeatmapObject
 {
 public:
-	Spinner(int startTime, int endTime);
-	void Update();
-
+	Spinner(int start, int end);
 private:
-	int endTime;
+	int end;
 };

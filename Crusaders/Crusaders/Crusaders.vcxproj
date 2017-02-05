@@ -170,9 +170,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BeatmapManager.hpp" />
+    <ClInclude Include="BeatmapReadSection.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
+    <ClInclude Include="HitObjectType.hpp" />
     <ClInclude Include="Path.hpp" />
     <ClInclude Include="Spinner.hpp" />
     <ClInclude Include="Note.hpp" />

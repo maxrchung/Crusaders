@@ -4,6 +4,7 @@ class BeatmapObject;
 class Path;
 
 #include "BeatmapObject.hpp"
+#include "TimingPoint.hpp"
 #include <fstream>
 #include <string>
 #include <tuple>
@@ -11,19 +12,17 @@ class Path;
 
 class BeatmapManager {
 public:
-	BeatmapManager(std::string& filepath);
-	void Process();
+	BeatmapManager(std::string& filePath);
 	Path* GeneratePath();
 
 private:
-	std::ifstream inputFile;
-	void readFile(std::string& filepath);
-	std::string clearChars(std::string& line, char clearby);
+	void read(std::string& filePath);
 
-	std::vector<std::string> seperateLine(std::string& line, char clearby);
-	std::vector<BeatmapObject*> mapObjects;
+	std::vector<std::string> separate(std::string& line, char toReplace, char replaceWith = ' ');
+	void processHitObject(std::vector<std::string>& separated);
+	void processTimingPoint(std::vector<std::string>& separated);
 
-	void createMapObject(std::vector<std::string>& objectVector);
+	std::vector<BeatmapObject*> hitObjects;
+	std::vector<TimingPoint> timingPoints;
 
-	std::vector<std::tuple<int, int>> getSliderTransitions(std::string transits);
 };

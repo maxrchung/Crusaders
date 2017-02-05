@@ -1,141 +1,124 @@
 #include "BeatmapManager.hpp"
+#include "BeatmapReadSection.hpp"
 #include "Slider.hpp"
 #include "Note.hpp"
 #include "Spinner.hpp"
 #include "Path.hpp"
+#include "Vector2.hpp"
 #include <iostream>
 #include <sstream>
 
-BeatmapManager::BeatmapManager(std::string& filepath)
-{
-	readFile(filepath);
+BeatmapManager::BeatmapManager(std::string& filePath) {
+	read(filePath);
 }
 
 Path* BeatmapManager::GeneratePath() {
 	return new Path();
 }
 
-void BeatmapManager::Process()
-{
-	for (auto mapObject : mapObjects) {
-		mapObject->Update();
-	}
-}
+void BeatmapManager::read(std::string& filePath) {
+	std::ifstream input;
+	input.open(filePath);
 
-void BeatmapManager::readFile(std::string& filepath)
-{
-	inputFile.open(filepath);
-	std::string textline;
-	std::vector<std::string> stringCounter;
-
-	bool reachedHitObjects = false;
-	
-	if (!inputFile.is_open())
+	BeatmapReadSection::Section section = BeatmapReadSection::None;
+	for (std::string line; std::getline(input, line); )
 	{
-		std::cerr << "Error opening file" << std::endl;
-		exit(EXIT_FAILURE);
-	}
-
-	for (std::string line; std::getline(inputFile, line); )
-	{
-		if (line == "[HitObjects]")
-		{
-			reachedHitObjects = true;
-		}
-		if (reachedHitObjects == true && line != "[HitObjects]")
-		{
-			
-			stringCounter = seperateLine(line, ' ');
-			createMapObject(stringCounter);	
+		// Ignore comments
+		if (line.substr(0, 2) == "//") {
+			continue;
 		}
 
-	}
+		// Denote which section we are in
+		if (line[0] == '[') {
+			if (line == "[HitObjects]") {
+				section = BeatmapReadSection::HitObjects;
+			}
+			else if (line == "[TimingPoints]") {
+				section = BeatmapReadSection::TimingPoints;
+			}
 
-	std::cout << "BeatmapManager vector size = " << mapObjects.size() << std::endl;
-	inputFile.close();
-}
+			// Skip if we changed sections
+			continue;
+		}
 
-std::vector<std::string> BeatmapManager::seperateLine(std::string& line, char clearby)
-{
-	std::string clearedLine = clearChars(line,',');
-	std::vector<std::string> returnVect;
-	std::string tempstr;
-	std::stringstream tempStream = std::stringstream(clearedLine);
-
-	while (tempStream >> tempstr)
-	{
-		returnVect.push_back(tempstr);
-	}
-
-	return returnVect;
-}
-
-std::string BeatmapManager::clearChars(std::string& line, char clearby)
-{
-	std::string resultline = std::string(line);
-	for (int i = 0; i < line.length(); ++i)
-	{
-		if (line[i] == clearby)
-		{
-			resultline[i] = ' ';
+		std::vector<std::string> separated = separate(line, ', ', ' ');
+		
+		// Parse line based on section
+		switch (section) {
+			case BeatmapReadSection::HitObjects: {
+				processHitObject(separated);
+				break;
+			}
+			case BeatmapReadSection::TimingPoints: {
+				processTimingPoint(separated);
+			}
 		}
 	}
-	return resultline;
+	input.close();
 }
 
-std::vector<std::tuple<int, int>> BeatmapManager::getSliderTransitions(std::string transits)
-{
-	//get the slider transitions from the index they're in. This function should convert the strings into ints using std::stoi(str).
-	//#1: clear chars by '|'
-	//#2 seperate the int:int transition pairs by ':'
-	int indextracker = 0;
-	int indextracker2 = 0;
-
-	std::vector<std::tuple<int, int>> xyTupleVector;
-	std::vector<std::string> clearedString = seperateLine(transits, '|');
-
-	std::vector<std::string> tempStrVec;
-
-	for (std::vector<std::string>::iterator i = clearedString.begin(); i != clearedString.end(); ++i)
-	{
-		//ignore the first index, which happens to be the B,P,L,C character
-		if (indextracker2 != 0)
-		{
-			tempStrVec = seperateLine(clearChars(*i, ':'), ' ');
-			xyTupleVector.push_back(std::make_tuple(std::stoi(tempStrVec[0]), std::stoi(tempStrVec[1])));
+std::vector<std::string> BeatmapManager::separate(std::string& line, char toReplace, char replaceWith) {
+	std::string replaced = std::string(line);
+	for (int i = 0; i < line.length(); ++i) {
+		if (line[i] == toReplace) {
+			replaced[i] = replaceWith;
 		}
-		indextracker2 += 1;
 	}
-	return xyTupleVector;
+
+	std::vector<std::string> separated;
+	std::stringstream stream = std::stringstream(replaced);
+
+	std::string counter;
+	while (stream >> counter) {
+		separated.push_back(counter);
+	}
+
+	return separated;
 }
 
-void BeatmapManager::createMapObject(std::vector<std::string>& objectVector)
-{
-	int indexer = 0;
-	int vectorLength = objectVector.size();
-	bool isSlider = false;
-	std::string stringer;
+void BeatmapManager::processHitObject(std::vector<std::string>& separated) {
+	int posX = std::stoi(separated[0]);
+	int posY = std::stoi(separated[1]);
+	Vector2 position(posX, posY);
+	int start = std::stoi(separated[2]);
 
-	//check for the 5th index of the line to see if it has B,P,L,C which indicates that 
-	//it is a slider.
-	if (objectVector[5][0] == 'B' || objectVector[5][0] == 'P' || objectVector[5][0] == 'L' || objectVector[5][0] == 'C')
-	{
-		isSlider = true;
+	int type = std::stoi(separated[3]);
+	if (type & 1) {
+		Note* note = new Note(start);
+		hitObjects.push_back(note);
 	}
+	else if (type & 2) {
+		int repeat = std::stoi(separated[6]);
+		std::vector<Vector2> transitions({ position });
 
-	std::cout << objectVector.size() << std::endl;
-	if (vectorLength == 6 && !isSlider)
-	{
-		mapObjects.push_back(new Note(std::stoi(objectVector[2])));
+		std::string info = separated[5];
+		// Drop the first 2 characters because we don't need to worry about the type of slider
+		info = info.substr(2);
+
+		std::vector<std::string> pairs = separate(info, '|');
+		for (auto pair : pairs) {
+			std::vector<std::string> point = separate(pair, ':');
+			int pointX = std::stoi(point[0]);
+			int pointY = std::stoi(point[1]);
+			transitions.push_back(Vector2(pointX, pointY));
+		}
+
+		Slider* slider = new Slider(start, repeat, transitions);
+		hitObjects.push_back(slider);
 	}
-	else if (vectorLength == 7 && !isSlider)
-	{
-		mapObjects.push_back(new Spinner(std::stoi(objectVector[2]), std::stoi(objectVector[5])));
+	else if (type & 8) {
+		int end = std::stoi(separated[5]);
+
+		Spinner* spinner = new Spinner(start, end);
+		hitObjects.push_back(spinner);
 	}
-	else if (vectorLength >= 8 && isSlider)
-	{
-		mapObjects.push_back(new Slider(std::stoi(objectVector[0]), std::stoi(objectVector[1]), std::stoi(objectVector[2]), getSliderTransitions(stringer)));
-	}
-	//3 cases: len of 5 == note, len of 7 without BPLC == spinner, len of 6 or more, with BPLC = slider.
 }
 
+void BeatmapManager::processTimingPoint(std::vector<std::string>& separated) {
+	int offset = std::stoi(separated[0]);
+	float mspb = std::stof(separated[1]);
+	int meter = std::stoi(separated[2]);
+
+	TimingPoint timingPoint(offset, mspb, meter);
+	timingPoints.push_back(timingPoint);
+}

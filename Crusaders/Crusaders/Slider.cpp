@@ -1,13 +1,5 @@
 #include "Slider.hpp"
 
-Slider::Slider(int x, int y, int startTime, std::vector<std::tuple<int, int>> transitionPoints)
-	: x(x), y(y), transitionPoints(transitionPoints), BeatmapObject(startTime, false)
-{
-	//std::cout << "Slider Initialized" << std::endl;
+Slider::Slider(int start, int repeat, std::vector<Vector2> transitions)
+	: BeatmapObject(start), repeat(repeat), transitions(transitions) {
 }
-
-void Slider::Update()
-{
-
-}
-
