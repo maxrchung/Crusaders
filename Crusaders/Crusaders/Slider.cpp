@@ -1,5 +1,5 @@
 #include "Slider.hpp"
 
-Slider::Slider(int start, int repeat, std::vector<Vector2> transitions)
-	: BeatmapObject(start), repeat(repeat), transitions(transitions) {
+Slider::Slider(int start, std::vector<Vector2> transitions, int repeat, float pixelLength)
+	: BeatmapObject(start), transitions(transitions), repeat(repeat), pixelLength(pixelLength) {
 }

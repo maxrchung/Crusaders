@@ -8,8 +8,9 @@
 class Slider : public BeatmapObject
 {
 public:
-	Slider(int start, int repeat, std::vector<Vector2> transitions);
-private:
+	Slider(int start, std::vector<Vector2> transitions, int repeat, float pixelLength);
+	int end;
 	int repeat;
+	float pixelLength;
 	std::vector<Vector2> transitions;
 };

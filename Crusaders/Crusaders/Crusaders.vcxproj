@@ -152,29 +152,36 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BeatmapManager.cpp" />
+    <ClCompile Include="Beatmap.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Face.cpp" />
+    <ClCompile Include="InheritedTimingPoint.cpp" />
     <ClCompile Include="Line.cpp" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="Marker.cpp" />
     <ClCompile Include="ObjectFace.cpp" />
     <ClCompile Include="ObjectLine.cpp" />
     <ClCompile Include="ObjectPoints.cpp" />
     <ClCompile Include="ObjectSprite.cpp" />
     <ClCompile Include="Path.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="Simulation.cpp" />
     <ClCompile Include="BeatmapObject.cpp" />
     <ClCompile Include="Slider.cpp" />
     <ClCompile Include="Note.cpp" />
     <ClCompile Include="Spinner.cpp" />
+    <ClCompile Include="TimingPoint.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BeatmapManager.hpp" />
+    <ClInclude Include="Beatmap.hpp" />
     <ClInclude Include="BeatmapReadSection.hpp" />
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
+    <ClInclude Include="InheritedTimingPoint.hpp" />
+    <ClInclude Include="Settings.hpp" />
     <ClInclude Include="HitObjectType.hpp" />
+    <ClInclude Include="Marker.hpp" />
     <ClInclude Include="Path.hpp" />
     <ClInclude Include="Spinner.hpp" />
     <ClInclude Include="Note.hpp" />
@@ -186,6 +193,7 @@
     <ClInclude Include="ObjectSprite.hpp" />
     <ClInclude Include="SimulationState.hpp" />
     <ClInclude Include="Simulation.hpp" />
+    <ClInclude Include="TimingPoint.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

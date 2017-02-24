@@ -1,5 +1,6 @@
-#include "BeatmapManager.hpp"
+#include "Beatmap.hpp"
 #include "Path.hpp"
+#include "Settings.hpp"
 #include "Simulation.hpp"
 #include "Storyboard.hpp"
 #include <string>
@@ -9,13 +10,16 @@
 void main(int argc, char* argv[]) {
 	srand(time(NULL));
 
+	Settings* settings = new Settings();
+
 	Sprite* bg = new Sprite("dot.png");
 	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);
 	bg->Color(0, 100000, Color(0), Color(0));
 
 	std::string beatmapPath = argv[argc - 1];
-	BeatmapManager* beatmapManager = new BeatmapManager(beatmapPath);
-	Path* path = beatmapManager->GeneratePath();
+	Beatmap* beatmap = new Beatmap(beatmapPath);
+	
+	Path* path = new Path(beatmap, settings);
 
 	//Simulation* simulation = new Simulation(path);
 	//simulation->Run();

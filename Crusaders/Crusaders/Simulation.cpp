@@ -4,7 +4,7 @@
 #include "ObjectLine.hpp"
 #include "ObjectSprite.hpp"
 #include "ObjectPoints.hpp"
-#include "BeatmapManager.hpp"
+#include "Beatmap.hpp"
 
 Simulation::Simulation(Path* path) 
 	: time(0),

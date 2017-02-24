@@ -5,6 +5,7 @@ namespace BeatmapReadSection {
 		None,
 		HitObjects,
 		TimingPoints,
+		Difficulty,
 		Count
 	};
 }
