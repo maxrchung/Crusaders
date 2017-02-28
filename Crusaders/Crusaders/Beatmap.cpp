@@ -198,7 +198,7 @@ void Beatmap::calculateSliderEnds() {
 }
 
 TimingPoint* Beatmap::getTimingPoint(int offset) {
-	TimingPoint* tp;
+	TimingPoint* tp = NULL;
 	for (auto timingPoint : timingPoints) {
 		if (timingPoint->offset < offset) {
 			tp = timingPoint;
@@ -211,7 +211,7 @@ TimingPoint* Beatmap::getTimingPoint(int offset) {
 }
 
 InheritedTimingPoint* Beatmap::getInheritedTimingPoint(TimingPoint* timingPoint, int offset) {
-	InheritedTimingPoint* itp;
+	InheritedTimingPoint* itp = NULL;
 	for (auto inheritedTimingPoint : timingPoint->inheritedTimingPoints) {
 		if (inheritedTimingPoint->offset < offset) {
 			itp = inheritedTimingPoint;

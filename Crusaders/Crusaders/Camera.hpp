@@ -22,8 +22,6 @@ public:
 	Vector2 ApplyPerspective(Vector3 point, Vector3 other);
 	Vector2 ProjectNear(Vector3 behind, Vector3 far);
 
-	void Update();
-
 	Vector3 position;
 	// Unit vector pointing in camera's direction
 	Vector3 direction;

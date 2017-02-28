@@ -6,9 +6,12 @@ class ObjectPoints;
 class Camera;
 class Path;
 
+#include "Marker.hpp"
 #include "SimulationState.hpp"
 #include <iostream>
 #include <list>
+#include <deque>
+#include <queue>
 #include <vector>
 
 class Simulation {
@@ -16,8 +19,6 @@ public:
 	Simulation(Path* path);
 	void Run();
 	void Update();
-	// Separated this out from Update function to differentiate deletion
-	void UpdateDelete();
 	// Allows an object to load its objectPoints into the simulation
 	void DrawLoad(ObjectPoints* objectPoints);
 	// Responsible for calling Draw for each object it keeps track of
@@ -38,4 +39,14 @@ public:
 	// Then, Simulation will draw the objects
 	// Once Simulation finishes drawing, it clears this data structure for the next frame
 	std::vector<ObjectPoints*> loadObjectPoints;
+	Path* path;
+
+	std::queue<Marker> remainingMarkers;
+	std::deque<Marker> currentMarkers;
+	float markerDistance;
+
+private:
+	// Fills currentMarkers by comparing the distance between remainingMarkers
+	// with the camera position
+	void fillCurrentMarkers();
 };

@@ -76,24 +76,3 @@ Vector2 Camera::ProjectNear(Vector3 behind, Vector3 far) {
 
 	return Vector2(projectedNear.x, projectedNear.y);
 }
-
-int x = 0;
-bool up = true;
-void Camera::Update() {
-	x++;
-	if (x == 4 && up) {
-		up = false;
-		x = 0;
-	}
-	else if (x == 4 && !up) {
-		up = true;
-		x = 0;
-	}
-
-	if (up) {
-		RotateY(M_PI / 4);
-	}
-	else {
-		RotateX(M_PI / 4);
-	}
-}

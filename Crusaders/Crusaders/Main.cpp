@@ -21,8 +21,8 @@ void main(int argc, char* argv[]) {
 	
 	Path* path = new Path(beatmap, settings);
 
-	//Simulation* simulation = new Simulation(path);
-	//simulation->Run();
+	Simulation* simulation = new Simulation(path);
+	simulation->Run();
 
 	//int songNameIndex = beatmapPath.find_last_of('[');
 	//std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
