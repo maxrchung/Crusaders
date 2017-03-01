@@ -3,9 +3,13 @@
 namespace BeatmapReadSection {
 	enum Section {
 		None,
-		HitObjects,
-		TimingPoints,
+		General,
+		Editor,
+		Metadata,
 		Difficulty,
+		Events,
+		TimingPoints,
+		HitObjects,
 		Count
 	};
 }

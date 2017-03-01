@@ -2,6 +2,6 @@
 #include "Note.hpp"
 #include "ObjectPoints.hpp"
 
-Note::Note(int startTime) 
+Note::Note(int start) 
 	: BeatmapObject(start) {
 }

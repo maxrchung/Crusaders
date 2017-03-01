@@ -10,6 +10,7 @@
 #include <iostream>
 #include <queue>
 #include <sstream>
+#include <stack>
 
 Beatmap::Beatmap(std::string& filePath) {
 	read(filePath);
@@ -29,17 +30,33 @@ void Beatmap::read(std::string& filePath) {
 		if (line.substr(0, 2) == "//") {
 			continue;
 		}
+		// Skip if empty
+		else if (line.empty()) {
+			continue;
+		}
 
 		// Denote which section we are in
 		if (line[0] == '[') {
-			if (line == "[HitObjects]") {
-				section = BeatmapReadSection::HitObjects;
+			if (line == "[General]") {
+				section = BeatmapReadSection::General;
+			}
+			else if (line == "[Editor]") {
+				section = BeatmapReadSection::Editor;
+			}
+			else if (line == "[Metadata]") {
+				section = BeatmapReadSection::Metadata;
+			}
+			else if (line == "[Difficulty]") {
+				section = BeatmapReadSection::Difficulty;
+			}
+			else if (line == "[Events]") {
+				section = BeatmapReadSection::Events;
 			}
 			else if (line == "[TimingPoints]") {
 				section = BeatmapReadSection::TimingPoints;
 			}
-			else if (line == "[Difficulty]") {
-				section = BeatmapReadSection::Difficulty;
+			else if (line == "[HitObjects]") {
+				section = BeatmapReadSection::HitObjects;
 			}
 
 			// Skip if we changed sections
@@ -48,16 +65,16 @@ void Beatmap::read(std::string& filePath) {
 		
 		// Parse line based on section
 		switch (section) {
-			case BeatmapReadSection::HitObjects: {
-				processHitObject(line);
+			case BeatmapReadSection::Difficulty: {
+				processDifficulty(line);
 				break;
 			}
 			case BeatmapReadSection::TimingPoints: {
 				processTimingPoint(line);
 				break;
 			}
-			case BeatmapReadSection::Difficulty: {
-				processDifficulty(line);
+			case BeatmapReadSection::HitObjects: {
+				processHitObject(line);
 				break;
 			}
 		}
@@ -175,11 +192,25 @@ void Beatmap::processDifficulty(std::string& line) {
 }
 
 void Beatmap::resolveTimingPoints() {
+	// Setup a stack that takes in inheritedTimingPoints
+	// We're going to loop backwards to insert inherited timing points into timing points
+	// The reason we loop backwards is because this way we won't skip over timingPoints
+	std::stack<InheritedTimingPoint*> inheritedStack;
 	for (auto inheritedTimingPoint : inheritedTimingPoints) {
-		for (auto timingPoint : timingPoints) {
-			if (inheritedTimingPoint->offset > timingPoint->offset) {
-				timingPoint->inheritedTimingPoints.push_back(inheritedTimingPoint);
-			}
+		inheritedStack.push(inheritedTimingPoint);
+	}
+
+	for (int i = timingPoints.size() - 1; i >= 0; --i) {
+		// We make another stack here to reflip our values
+		std::stack<InheritedTimingPoint*> toAdd;
+		while (!inheritedStack.empty() && inheritedStack.top()->offset > timingPoints[i]->offset) {
+			toAdd.push(inheritedStack.top());
+			inheritedStack.pop();
+		}
+
+		while (!toAdd.empty()) {
+			timingPoints[i]->inheritedTimingPoints.push_back(toAdd.top());
+			toAdd.pop();
 		}
 	}
 }
