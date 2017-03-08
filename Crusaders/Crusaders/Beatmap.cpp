@@ -216,12 +216,25 @@ void Beatmap::resolveTimingPoints() {
 }
 
 void Beatmap::calculateSliderEnds() {
-	for (auto slider : sliders) {
+	for (auto& slider : sliders) {
 		TimingPoint* timingPoint = getTimingPoint(slider.start);
-		InheritedTimingPoint* inheritedTimingPoint = getInheritedTimingPoint(timingPoint, slider.start);
+		// If timingPoint doesn't exist, use the first point
+		if (!timingPoint) {
+			timingPoint = timingPoints.front();
+		}
 
-		float totalMultiplier = sliderMultiplier * inheritedTimingPoint->sliderMultiplier;
-		float beats = slider.pixelLength / totalMultiplier;
+		InheritedTimingPoint* inheritedTimingPoint = getInheritedTimingPoint(timingPoint, slider.start);
+		// It's possible that the inherited timing point doesn't exist
+		float totalMultiplier;
+		if (inheritedTimingPoint) {
+			totalMultiplier = sliderMultiplier * inheritedTimingPoint->sliderMultiplier;
+		}
+		else {
+			totalMultiplier = sliderMultiplier;
+		}
+		// Break up into quarter beats
+		float beats = slider.pixelLength / totalMultiplier / 100.0f;
+		// Multiply to find total length
 		float length = beats * timingPoint->mspb;
 		int end = slider.start + length;
 		slider.end = end;
@@ -276,7 +289,7 @@ void Beatmap::findSongStartEnd() {
 		spinnerEnd = spinners.back().end;
 	}
 
-	if (sliderStart < 0 && noteStart < 0 && spinnerStart < 0) {
+	if (sliderStart == INT32_MAX && noteStart == INT32_MAX && spinnerStart == INT32_MAX) {
 		throw "No HitObjects found.";
 	}
 
@@ -284,10 +297,10 @@ void Beatmap::findSongStartEnd() {
 	if (sliderStart < min) {
 		min = sliderStart;
 	}
-	else if (noteStart < min) {
+	if (noteStart < min) {
 		min = noteStart;
 	}
-	else if (spinnerStart < min) {
+	if (spinnerStart < min) {
 		min = spinnerStart;
 	}
 
@@ -295,10 +308,10 @@ void Beatmap::findSongStartEnd() {
 	if (sliderEnd > max) {
 		max = sliderEnd;
 	}
-	else if (noteEnd > max) {
+	if (noteEnd > max) {
 		max = noteEnd;
 	}
-	else if (spinnerEnd > max) {
+	if (spinnerEnd > max) {
 		max = spinnerEnd;
 	}
 

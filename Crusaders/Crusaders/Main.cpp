@@ -24,10 +24,10 @@ void main(int argc, char* argv[]) {
 	Simulation* simulation = new Simulation(path);
 	simulation->Run();
 
-	//int songNameIndex = beatmapPath.find_last_of('[');
-	//std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
-	//std::string storyboardPath = songNamePath + ".osb";
-	//Storyboard::Instance()->Write(storyboardPath);
+	int songNameIndex = beatmapPath.find_last_of('[');
+	std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
+	std::string storyboardPath = songNamePath + ".osb";
+	Storyboard::Instance()->Write(storyboardPath);
 
-	//std::cin.get();
+	std::cin.get();
 }

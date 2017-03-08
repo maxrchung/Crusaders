@@ -7,6 +7,7 @@
 
 ObjectPoints::ObjectPoints(Simulation* simulation, std::vector<Face> faces)
 	: simulation(simulation) {
+	// For calculating center
 	Vector3 total = Vector3::Zero;
 	int counter = 0;
 

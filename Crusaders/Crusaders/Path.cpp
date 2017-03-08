@@ -42,15 +42,17 @@ Path::Path(Beatmap* beatmap, Settings* settings) {
 		tpq.push(timingPoint);
 	}
 
-	TimingPoint* tp = timingPoints.front();
-
+	TimingPoint* front = tpq.front();
+	// Pop first so the next one will always be the next available
+	tpq.pop();
 	while (start < beatmap->songEnd.ms) {
 		while (!tpq.empty() && start > tpq.front()->offset) {
-			tp = tpq.front();
-			start = tp->offset;
+			front = tpq.front();
+			start = front->offset;
 			tpq.pop();
 		}
 
+		start += front->mspb;
 		Marker marker(Vector3(0, 0, start), start, false);
 		markers.push_back(marker);
 	}

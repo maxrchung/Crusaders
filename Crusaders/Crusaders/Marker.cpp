@@ -9,7 +9,7 @@ Marker::Marker() {}
 
 void Marker::setObjectPoints(Simulation* simulation) {
 	this->simulation = simulation;
-	Vector3 left = position - Vector3(-radius, 0, 0);
+	Vector3 left = position - Vector3(radius, 0, 0);
 	Vector3 right = position + Vector3(radius, 0, 0);
 	Face face = Face({ left, right });
 	objectPoints = new ObjectPoints(simulation, { face });

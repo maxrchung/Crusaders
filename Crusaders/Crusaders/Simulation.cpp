@@ -13,6 +13,7 @@ Simulation::Simulation(Path* path)
 
 	// Fill remainingMarkers
 	for (auto marker : path->markers) {
+		marker.setObjectPoints(this);
 		remainingMarkers.push(marker);
 	}
 	fillCurrentMarkers();
@@ -33,7 +34,7 @@ void Simulation::Run() {
 	}
 }
 void Simulation::Update() {
-	Vector3 camPos(0, 0, -time);
+	Vector3 camPos(0, 100, -time);
 	camera->MoveTo(camPos);
 	fillCurrentMarkers();
 
