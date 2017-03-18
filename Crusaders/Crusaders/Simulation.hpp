@@ -1,10 +1,11 @@
 #pragma once
 #define M_PI 3.14159265359f
 
-class SpawnInfoManager;
-class ObjectPoints;
 class Camera;
+class Log;
+class ObjectPoints;
 class Path;
+class SpawnInfoManager;
 
 #include "Marker.hpp"
 #include "SimulationState.hpp"
@@ -28,6 +29,7 @@ public:
 
 	SimulationState state;
 	Camera* camera;
+	float cameraHeight;
 
 	bool simulationRunning;
 	int time;
@@ -39,6 +41,7 @@ public:
 	// Then, Simulation will draw the objects
 	// Once Simulation finishes drawing, it clears this data structure for the next frame
 	std::vector<ObjectPoints*> loadObjectPoints;
+	Log* log;
 	Path* path;
 
 	std::queue<Marker> remainingMarkers;

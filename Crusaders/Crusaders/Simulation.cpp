@@ -1,15 +1,19 @@
 #include "Beatmap.hpp"
 #include "Camera.hpp"
-#include "Sprite.hpp"
+#include "Log.hpp"
 #include "ObjectLine.hpp"
 #include "ObjectSprite.hpp"
 #include "ObjectPoints.hpp"
 #include "Path.hpp"
 #include "Simulation.hpp"
+#include "Sprite.hpp"
 
 Simulation::Simulation(Path* path) 
-	: time(0), timeEnd(10000), delta(200), dps((float)delta / 1000), state(SimulationState::Level1), simulationRunning(true), path(path), markerDistance(1000.0f) {
+	: time(0), timeEnd(10000), delta(200), dps((float)delta / 1000), state(SimulationState::Level1), simulationRunning(true), path(path), markerDistance(10000.0f), cameraHeight(10000.0f), log(new Log) {
 	camera = new Camera(this);
+	// Rotate 180
+	// Make sure to multiply by dps so we account for time
+	camera->RotateY(M_PI / dps);
 
 	// Fill remainingMarkers
 	for (auto marker : path->markers) {
@@ -17,6 +21,7 @@ Simulation::Simulation(Path* path)
 		remainingMarkers.push(marker);
 	}
 	fillCurrentMarkers();
+	log->WriteLine("test");
 }
 
 void Simulation::Run() {
@@ -33,19 +38,21 @@ void Simulation::Run() {
 		}
 	}
 }
+
 void Simulation::Update() {
-	Vector3 camPos(0, 100, -time);
-	camera->MoveTo(camPos);
-	fillCurrentMarkers();
+	Vector3 camPos(0, cameraHeight, time);
+	camera->MoveTo(camPos / dps);
 
 	while (!currentMarkers.empty()) {
-		if (currentMarkers.front().position.z > camPos.z) {
+		if (currentMarkers.front().position.z <= camPos.z) {
 			currentMarkers.pop_front();
 		}
 		else {
 			break;
 		}
 	}
+
+	fillCurrentMarkers();
 }
 
 void Simulation::DrawLoad(ObjectPoints* objectPoints) {
@@ -53,6 +60,9 @@ void Simulation::DrawLoad(ObjectPoints* objectPoints) {
 }
 
 void Simulation::Draw() {
+	for (auto marker : currentMarkers) {
+		DrawLoad(marker.objectPoints);
+	}
 }
 
 void Simulation::DrawRender() {
@@ -73,13 +83,6 @@ void Simulation::DrawRender() {
 			Sprite* sprite = objectSprite->sprite;
 			Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 			Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
-
-			// If both points are behind camera, don't draw it
-			if (startCamCon.z >= 0 || endCamCon.z >= 0) {
-				sprite->Fade(time, time, 0.0f, 0.0f);
-				objectSprite->reset = true;
-				continue;
-			}
 
 			Vector2 startPoint = camera->ApplyPerspective(startCamCon, endCamCon);
 			Vector2 endPoint = camera->ApplyPerspective(endCamCon, startCamCon);

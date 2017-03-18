@@ -28,6 +28,4 @@ void main(int argc, char* argv[]) {
 	std::string songNamePath = beatmapPath.substr(0, songNameIndex - 1);
 	std::string storyboardPath = songNamePath + ".osb";
 	Storyboard::Instance()->Write(storyboardPath);
-
-	std::cin.get();
 }

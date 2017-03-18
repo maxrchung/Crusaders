@@ -2,7 +2,7 @@
 #include "ObjectPoints.hpp"
 
 Marker::Marker(Vector3 position, int time, bool onBeat) 
-	: position(position), onBeat(onBeat), time(time), radius(20.0f) {
+	: position(position), onBeat(onBeat), time(time), radius(1000.0f) {
 }
 
 Marker::Marker() {}

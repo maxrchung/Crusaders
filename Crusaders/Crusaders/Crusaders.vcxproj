@@ -87,7 +87,7 @@
       </PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
-      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
       <AdditionalIncludeDirectories>$(SolutionDir)OsuukiSB;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
@@ -157,6 +157,7 @@
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="InheritedTimingPoint.cpp" />
     <ClCompile Include="Line.cpp" />
+    <ClCompile Include="Log.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Marker.cpp" />
     <ClCompile Include="ObjectFace.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
     <ClInclude Include="InheritedTimingPoint.hpp" />
+    <ClInclude Include="Log.hpp" />
     <ClInclude Include="Settings.hpp" />
     <ClInclude Include="HitObjectType.hpp" />
     <ClInclude Include="Marker.hpp" />
