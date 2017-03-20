@@ -16,14 +16,15 @@ Log::Log() {
 		<< std::setfill('0') << std::setw(4) << now->tm_year + 1900
 		<< std::setw(2) << now->tm_mon + 1
 		<< std::setw(2) << now->tm_mday
-		<< '_'
-		<< std::setw(2) << now->tm_hour
-		<< std::setw(2) << now->tm_min
-		<< std::setw(2) << now->tm_sec
-		<< ".txt";
+		<< ".log";
 	stream >> path;
 
-	std::cout << "Log created: " << path << std::endl;
+	std::ofstream log(path, std::ios::out | std::ios::app);
+	log << std::setw(2) << now->tm_hour << ":"
+		<< std::setw(2) << now->tm_min << ":"
+		<< std::setw(2) << now->tm_sec << ": "
+		<< "Log created."
+		<< std::endl;
 }
 
 void Log::WriteLine(const std::string& message) {

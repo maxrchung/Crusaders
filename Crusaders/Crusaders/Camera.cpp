@@ -3,7 +3,7 @@
 #include "Simulation.hpp"
 
 Camera::Camera(Simulation* simulation, Vector3 position, Vector3 direction) 
-	: simulation(simulation), position(position), direction(direction), directionRotations(Vector3::Zero), fieldOfView(M_PI * 0.95f), screenMultiplier(Vector2::ScreenSize.x) {
+	: simulation(simulation), position(position), direction(direction), directionRotations(Vector3::Zero), fieldOfView(M_PI * 0.75f), screenMultiplier(Vector2::ScreenSize.x) {
 	drawDistance = 1 / (tanf(fieldOfView / 2));
 }
 
