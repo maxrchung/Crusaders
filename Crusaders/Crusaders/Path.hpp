@@ -10,5 +10,6 @@ class Settings;
 class Path {
 public:
 	Path(Beatmap* beatmap, Settings* settings);
-	std::vector<Marker> markers;
+	std::vector<Marker*> markers;
+	bool isOnBeat(TimingPoint* timingPoint, float time);
 };

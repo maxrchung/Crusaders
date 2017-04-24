@@ -12,6 +12,10 @@ void main(int argc, char* argv[]) {
 
 	Settings* settings = new Settings();
 
+	Sprite* bg2 = new Sprite("dot.png");
+	bg2->ScaleVector(0, 100000, Vector2::ScreenSize * 2, Vector2::ScreenSize * 2);
+	bg2->Color(0, 100000, Color(100), Color(100));
+
 	Sprite* bg = new Sprite("dot.png");
 	bg->ScaleVector(0, 100000, Vector2::ScreenSize, Vector2::ScreenSize);
 	bg->Color(0, 100000, Color(0), Color(0));

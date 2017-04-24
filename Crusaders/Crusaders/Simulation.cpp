@@ -9,19 +9,21 @@
 #include "Sprite.hpp"
 
 Simulation::Simulation(Path* path) 
-	: time(0), timeEnd(10000), delta(200), dps((float)delta / 1000), state(SimulationState::Level1), simulationRunning(true), path(path), markerDistance(10000.0f), cameraHeight(10000.0f), log(new Log) {
+	: time(0), timeEnd(30000), delta(200), dps((float)delta / 1000), state(SimulationState::Level1), simulationRunning(true), path(path), markerDistance(10000.0f), cameraHeight(5000.0f), log(new Log) {
 	camera = new Camera(this);
 	// Rotate 180
 	// Make sure to multiply by dps so we account for time
 	camera->RotateY(M_PI / dps);
 
-	// Fill remainingMarkers
+	Vector3 camPos(0, cameraHeight / dps, time / dps);
+	camera->MoveTo(camPos);
+
+	// Fill markers
 	for (auto marker : path->markers) {
-		marker.setObjectPoints(this);
+		marker->setObjectPoints(this);
 		remainingMarkers.push(marker);
 	}
 	fillCurrentMarkers();
-	log->WriteLine("test");
 }
 
 void Simulation::Run() {
@@ -40,11 +42,13 @@ void Simulation::Run() {
 }
 
 void Simulation::Update() {
-	Vector3 camPos(0, cameraHeight, time);
-	camera->MoveTo(camPos / dps);
+	Vector3 camPos(0, cameraHeight, time / dps);
+	camera->MoveTo(camPos);
 
 	while (!currentMarkers.empty()) {
-		if (currentMarkers.front().position.z <= camPos.z) {
+		Marker* marker = currentMarkers.front();
+		if (marker->position.z <= camera->position.z) {
+			marker->objectPoints->Fade(0.0f);
 			currentMarkers.pop_front();
 		}
 		else {
@@ -61,7 +65,7 @@ void Simulation::DrawLoad(ObjectPoints* objectPoints) {
 
 void Simulation::Draw() {
 	for (auto marker : currentMarkers) {
-		DrawLoad(marker.objectPoints);
+		DrawLoad(marker->objectPoints);
 	}
 }
 
@@ -83,14 +87,13 @@ void Simulation::DrawRender() {
 			Sprite* sprite = objectSprite->sprite;
 			Vector3 startCamCon = camera->ConvertPoint(*objectLines[i]->start, camPos, camRot);
 			Vector3 endCamCon = camera->ConvertPoint(*objectLines[i]->end, camPos, camRot);
-
 			Vector2 startPoint = camera->ApplyPerspective(startCamCon, endCamCon);
 			Vector2 endPoint = camera->ApplyPerspective(endCamCon, startCamCon);
 			Vector2 diff = endPoint - startPoint;
 			float additionalRot = Vector2(sprite->rotation).AngleBetween(diff);
 			float dist = diff.Magnitude();
 			if (objectSprite->reset) {
-				sprite->Fade(time, time, 1.0f, 1.0f);
+				//sprite->Fade(time, time, 1.0f, 1.0f);
 				sprite->Move(time, time + delta, startPoint, startPoint);
 				sprite->Rotate(time, time + delta, sprite->rotation + additionalRot, sprite->rotation + additionalRot);
 				sprite->ScaleVector(time, time + delta, Vector2(dist, 1), Vector2(dist, 1));
@@ -107,8 +110,9 @@ void Simulation::DrawRender() {
 }
 
 void Simulation::fillCurrentMarkers() {
+	// May need to do some kind of snaking calculation that sums all marker distances passed
 	while (!remainingMarkers.empty()) {
-		Vector3 distance = remainingMarkers.front().position - camera->position;
+		Vector3 distance = remainingMarkers.front()->position - camera->position;
 		float magnitude = distance.Magnitude();
 
 		if (magnitude <= markerDistance) {

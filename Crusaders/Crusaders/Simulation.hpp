@@ -3,11 +3,11 @@
 
 class Camera;
 class Log;
+class Marker;
 class ObjectPoints;
 class Path;
 class SpawnInfoManager;
 
-#include "Marker.hpp"
 #include "SimulationState.hpp"
 #include <iostream>
 #include <list>
@@ -44,8 +44,8 @@ public:
 	Log* log;
 	Path* path;
 
-	std::queue<Marker> remainingMarkers;
-	std::deque<Marker> currentMarkers;
+	std::queue<Marker*> remainingMarkers;
+	std::deque<Marker*> currentMarkers;
 	float markerDistance;
 
 private:
