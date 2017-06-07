@@ -137,6 +137,11 @@ void Beatmap::processHitObject(std::string& line) {
 
 		Slider slider(start, transitions, repeat, pixelLength);
 		sliders.push_back(slider);
+
+		std::vector<Vector2> points;
+		for (int i = 0; i <= 10; i++) {
+			points.push_back(slider.bezier.findPosition(i / 10.0f));
+		}
 	}
 	else if (type & 8) {
 		int end = std::stoi(separated[5]);

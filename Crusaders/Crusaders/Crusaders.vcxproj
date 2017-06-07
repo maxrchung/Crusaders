@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Beatmap.cpp" />
+    <ClCompile Include="Bezier.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Face.cpp" />
     <ClCompile Include="InheritedTimingPoint.cpp" />
@@ -179,6 +180,7 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="Face.hpp" />
     <ClInclude Include="BeatmapObject.hpp" />
+    <ClInclude Include="Bezier.hpp" />
     <ClInclude Include="InheritedTimingPoint.hpp" />
     <ClInclude Include="Log.hpp" />
     <ClInclude Include="Settings.hpp" />
